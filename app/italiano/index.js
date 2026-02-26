@@ -4,9 +4,14 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS, SHADOWS } from '../../constants/theme';
 import { ortografiaTopics } from '../../data/italiano';
 
+const ortografiaCards = ortografiaTopics.map((t, i) => ({
+  title: t.title, emoji: '✏️', desc: `${t.questions.length} domande`, route: `/italiano/ortografia?topic=${i}`,
+}));
+
 const activities = [
-  ...ortografiaTopics.map((t, i) => ({ title: t.title, emoji: '✏️', desc: 'Ortografia', route: `/italiano/ortografia?topic=${i}` })),
-  { title: 'Descrizione guidata', emoji: '📝', desc: 'Scrivi!', route: '/italiano/descrizione' },
+  ...ortografiaCards,
+  { title: 'Descrizione guidata', emoji: '📝', desc: 'Esercitati a scrivere', route: '/italiano/descrizione' },
+  { title: 'Poesie e Letture', emoji: '📜', desc: 'Leggi e rispondi', route: '/italiano/poesie' },
 ];
 
 export default function Italiano() {
@@ -27,7 +32,7 @@ export default function Italiano() {
             <Text style={styles.cardTitle}>{a.title}</Text>
             <Text style={styles.cardDesc}>{a.desc}</Text>
           </View>
-          <Text style={styles.arrow}>→</Text>
+          <Text style={styles.arrow}>›</Text>
         </TouchableOpacity>
       ))}
     </ScrollView>
@@ -47,5 +52,5 @@ const styles = StyleSheet.create({
   emoji: { fontSize: 32, marginRight: 14 },
   cardTitle: { fontSize: 18, fontWeight: '700', color: COLORS.italiano },
   cardDesc: { fontSize: 13, color: COLORS.textLight, marginTop: 2 },
-  arrow: { fontSize: 24, color: COLORS.textLight },
+  arrow: { fontSize: 28, color: COLORS.textLight, fontWeight: '300' },
 });
