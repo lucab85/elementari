@@ -9,7 +9,7 @@ import { getTotalStars } from '../data/progress';
 const subjects = [
   { title: 'Matematica', emoji: '🔢', color: COLORS.math, lightColor: COLORS.mathLight, route: '/matematica', desc: 'Tabelline, operazioni, divisioni' },
   { title: 'Italiano', emoji: '📖', color: COLORS.italiano, lightColor: COLORS.italianoLight, route: '/italiano', desc: 'Ortografia, poesie, descrizioni' },
-  { title: 'Storia', emoji: '🦕', color: COLORS.storia, lightColor: COLORS.storiaLight, route: '/storia', desc: 'Animali preistorici e quiz' },
+  { title: 'Storia', emoji: '🦕', color: COLORS.storia, lightColor: COLORS.storiaLight, route: '/storia', desc: 'Animali preistorici' },
   { title: 'Scienze', emoji: '🔬', color: '#8E44AD', lightColor: '#F4ECF7', route: '/scienze', desc: 'Sistema Solare, corpo umano' },
   { title: 'Geografia', emoji: '🌍', color: '#1ABC9C', lightColor: '#D1F2EB', route: '/geografia', desc: 'Regioni d\'Italia e quiz' },
   { title: 'Inglese', emoji: '🇬🇧', color: '#E67E22', lightColor: '#FDEBD0', route: '/inglese', desc: 'Vocabolario e quiz' },

@@ -14,6 +14,7 @@ const activities = [
   { title: 'L\'Orologio', emoji: '🕐', desc: 'Che ore sono?', route: '/matematica/orologio' },
   { title: 'Equivalenze', emoji: '📏', desc: 'km↔m, kg↔g, l↔ml', route: '/matematica/equivalenze' },
   { title: 'Problemi', emoji: '📝', desc: 'Problemi con le parole', route: '/matematica/problemi' },
+  { title: 'Geometria', emoji: '📐', desc: 'Forme e figure', route: '/matematica/geometria' },
   { title: 'Tabellone', emoji: '📋', desc: 'Tutte le tabelline', route: '/matematica/tabellone' },
 ];
 
