@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '../../constants/theme';
+import { useTrackScreen } from '../../hooks/useAnalytics';
+import { trackAnswer } from '../../data/analytics';
 
 function generateQuestion(table) {
   const a = table || (Math.floor(Math.random() * 8) + 2);
@@ -23,6 +25,7 @@ function generateOptions(correct) {
 export default function Tabelline() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  useTrackScreen('Matematica > Tabelline');
   const [selectedTable, setSelectedTable] = useState(null);
   const [question, setQuestion] = useState(null);
   const [streak, setStreak] = useState(0);
