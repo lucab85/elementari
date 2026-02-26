@@ -20,6 +20,7 @@ const activities = [
   { title: 'Pari o Dispari', emoji: '🔢', desc: 'Pari o dispari?', route: '/matematica/paridispari' },
   { title: 'Ordina i Numeri', emoji: '📊', desc: 'Metti in ordine', route: '/matematica/ordina' },
   { title: 'Sequenze', emoji: '🔢', desc: 'Trova il numero mancante', route: '/matematica/sequenze' },
+  { title: 'Potenze', emoji: '💪', desc: 'Quadrati e cubi', route: '/matematica/potenze' },
   { title: 'Tabellone', emoji: '📋', desc: 'Tutte le tabelline', route: '/matematica/tabellone' },
 ];
 

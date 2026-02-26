@@ -26,8 +26,17 @@ export default function Geografia() {
       <TouchableOpacity style={styles.card} onPress={() => router.push('/geografia/quiz')} activeOpacity={0.7}>
         <Text style={styles.emoji}>❓</Text>
         <View style={{ flex: 1 }}>
-          <Text style={styles.cardTitle}>Quiz Geografia</Text>
-          <Text style={styles.cardDesc}>Metti alla prova le tue conoscenze</Text>
+          <Text style={styles.cardTitle}>Quiz Regioni</Text>
+          <Text style={styles.cardDesc}>Capoluoghi e regioni</Text>
+        </View>
+        <Text style={styles.arrow}>›</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.card} onPress={() => router.push('/geografia/capitali')} activeOpacity={0.7}>
+        <Text style={styles.emoji}>🏛️</Text>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.cardTitle}>Capitali d'Europa</Text>
+          <Text style={styles.cardDesc}>20 paesi europei</Text>
         </View>
         <Text style={styles.arrow}>›</Text>
       </TouchableOpacity>
