@@ -5,6 +5,7 @@ import { useFocusEffect } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS, SHADOWS } from '../constants/theme';
 import { getTotalStars } from '../data/progress';
+import { useTrackScreen } from '../hooks/useAnalytics';
 
 const subjects = [
   { title: 'Matematica', emoji: '🔢', color: COLORS.math, lightColor: COLORS.mathLight, route: '/matematica', desc: '19 attività: tabelline, problemi, geometria...' },
@@ -23,6 +24,7 @@ export default function Home() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const [stars, setStars] = useState(0);
+  useTrackScreen('Home');
 
   useFocusEffect(
     useCallback(() => {
@@ -53,6 +55,14 @@ export default function Home() {
           </View>
         )}
       </View>
+
+      <TouchableOpacity
+        style={styles.statsBtn}
+        activeOpacity={0.7}
+        onPress={() => router.push('/statistiche')}
+      >
+        <Text style={styles.statsBtnText}>📊 Le Mie Statistiche</Text>
+      </TouchableOpacity>
 
       {subjects.map((subject) => (
         <TouchableOpacity
@@ -101,4 +111,6 @@ const styles = StyleSheet.create({
   arrow: { fontSize: 32, color: COLORS.textLight, fontWeight: '300' },
   footer: { alignItems: 'center', marginTop: 20 },
   footerText: { fontSize: 14, color: COLORS.textLight },
+  statsBtn: { backgroundColor: '#6C5CE7', paddingVertical: 14, borderRadius: 16, alignItems: 'center', marginBottom: 20, ...SHADOWS.card },
+  statsBtnText: { color: '#FFF', fontSize: 18, fontWeight: '700' },
 });
