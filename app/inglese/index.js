@@ -29,8 +29,17 @@ export default function Inglese() {
       <TouchableOpacity style={styles.card} onPress={() => router.push('/inglese/quiz')} activeOpacity={0.7}>
         <Text style={styles.emoji}>❓</Text>
         <View style={{ flex: 1 }}>
-          <Text style={styles.cardTitle}>Quiz</Text>
-          <Text style={styles.cardDesc}>Metti alla prova il tuo inglese</Text>
+          <Text style={styles.cardTitle}>Quiz Vocabolario</Text>
+          <Text style={styles.cardDesc}>Traduci le parole</Text>
+        </View>
+        <Text style={styles.arrow}>›</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.card} onPress={() => router.push('/inglese/frasi')} activeOpacity={0.7}>
+        <Text style={styles.emoji}>💬</Text>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.cardTitle}>Frasi Utili</Text>
+          <Text style={styles.cardDesc}>18 frasi di uso quotidiano</Text>
         </View>
         <Text style={styles.arrow}>›</Text>
       </TouchableOpacity>

@@ -16,6 +16,7 @@ const activities = [
   { title: 'Dettato Ortografico', emoji: '✍️', desc: 'CU/QU/CQU, GN, GL, SC, CH', route: '/italiano/dettato' },
   { title: 'Analisi Grammaticale', emoji: '🔍', desc: 'Nomi, verbi, aggettivi...', route: '/italiano/analisi' },
   { title: 'Sinonimi e Contrari', emoji: '🔄', desc: '16 esercizi', route: '/italiano/sinonimi' },
+  { title: 'Verbi Irregolari', emoji: '🔤', desc: 'Andare, fare, dire...', route: '/italiano/verbi' },
 ];
 
 export default function Italiano() {
