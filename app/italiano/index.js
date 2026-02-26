@@ -13,6 +13,7 @@ const activities = [
   { title: 'Descrizione guidata', emoji: '📝', desc: 'Esercitati a scrivere', route: '/italiano/descrizione' },
   { title: 'Poesie e Letture', emoji: '📜', desc: 'Leggi e rispondi', route: '/italiano/poesie' },
   { title: 'Grammatica', emoji: '📗', desc: 'Verbi, plurali, articoli', route: '/italiano/grammatica' },
+  { title: 'Dettato Ortografico', emoji: '✍️', desc: 'CU/QU/CQU, GN, GL, SC, CH', route: '/italiano/dettato' },
 ];
 
 export default function Italiano() {
