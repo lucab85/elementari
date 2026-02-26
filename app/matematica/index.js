@@ -10,6 +10,8 @@ const activities = [
   { title: 'Divisioni', emoji: '➗', desc: 'Dividi!', route: '/matematica/divisioni' },
   { title: 'Trova il numero', emoji: '🔍', desc: 'Completa le operazioni', route: '/matematica/trovailnumero' },
   { title: 'Confronta', emoji: '⚖️', desc: 'Maggiore, minore o uguale?', route: '/matematica/confronta' },
+  { title: 'Numeri Romani', emoji: '🏛️', desc: 'I, V, X, L, C, D, M', route: '/matematica/numeriromani' },
+  { title: 'L\'Orologio', emoji: '🕐', desc: 'Che ore sono?', route: '/matematica/orologio' },
   { title: 'Tabellone', emoji: '📋', desc: 'Tutte le tabelline', route: '/matematica/tabellone' },
 ];
 
