@@ -15,6 +15,7 @@ const activities = [
   { title: 'Grammatica', emoji: '📗', desc: 'Verbi, plurali, articoli', route: '/italiano/grammatica' },
   { title: 'Dettato Ortografico', emoji: '✍️', desc: 'CU/QU/CQU, GN, GL, SC, CH', route: '/italiano/dettato' },
   { title: 'Analisi Grammaticale', emoji: '🔍', desc: 'Nomi, verbi, aggettivi...', route: '/italiano/analisi' },
+  { title: 'Sinonimi e Contrari', emoji: '🔄', desc: '16 esercizi', route: '/italiano/sinonimi' },
 ];
 
 export default function Italiano() {
