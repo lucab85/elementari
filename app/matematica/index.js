@@ -13,6 +13,7 @@ const activities = [
   { title: 'Numeri Romani', emoji: '🏛️', desc: 'I, V, X, L, C, D, M', route: '/matematica/numeriromani' },
   { title: 'L\'Orologio', emoji: '🕐', desc: 'Che ore sono?', route: '/matematica/orologio' },
   { title: 'Equivalenze', emoji: '📏', desc: 'km↔m, kg↔g, l↔ml', route: '/matematica/equivalenze' },
+  { title: 'Problemi', emoji: '📝', desc: 'Problemi con le parole', route: '/matematica/problemi' },
   { title: 'Tabellone', emoji: '📋', desc: 'Tutte le tabelline', route: '/matematica/tabellone' },
 ];
 
