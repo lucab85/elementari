@@ -52,6 +52,15 @@ export default function Scienze() {
         </View>
         <Text style={styles.arrow}>›</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity style={styles.card} onPress={() => router.push('/scienze/catena')} activeOpacity={0.7}>
+        <Text style={styles.emoji}>🔗</Text>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.cardTitle}>Catena Alimentare</Text>
+          <Text style={styles.cardDesc}>Produttori, consumatori, decompositori</Text>
+        </View>
+        <Text style={styles.arrow}>›</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }

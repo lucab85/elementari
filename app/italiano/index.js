@@ -17,6 +17,7 @@ const activities = [
   { title: 'Analisi Grammaticale', emoji: '🔍', desc: 'Nomi, verbi, aggettivi...', route: '/italiano/analisi' },
   { title: 'Sinonimi e Contrari', emoji: '🔄', desc: '16 esercizi', route: '/italiano/sinonimi' },
   { title: 'Verbi Irregolari', emoji: '🔤', desc: 'Andare, fare, dire...', route: '/italiano/verbi' },
+  { title: 'Punteggiatura', emoji: '❗', desc: 'Punti, virgole, esclamativi', route: '/italiano/punteggiatura' },
 ];
 
 export default function Italiano() {
