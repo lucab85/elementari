@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '../../constants/theme';
+import { hapticCorrect, hapticWrong, hapticTap, getCorrectMessage, getWrongMessage } from '../../components/KidsFeedback';
 
 function generate() {
   return Math.floor(Math.random() * 200) + 1;
@@ -22,6 +23,7 @@ export default function PariDispari() {
     const isPari = num % 2 === 0;
     const correct = (answer === 'pari' && isPari) || (answer === 'dispari' && !isPari);
     setFeedback(correct ? 'correct' : 'wrong');
+    if (correct) hapticCorrect(); else hapticWrong();
     setTotal(total + 1);
     if (correct) {
       setScore(score + 1);
@@ -33,7 +35,7 @@ export default function PariDispari() {
   return (
     <View style={[styles.container, { paddingTop: insets.top + 16 }]}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
         <Animated.Text style={[styles.scoreText, { transform: [{ scale: bounceAnim }] }]}>⭐ {score}/{total}</Animated.Text>
       </View>
       <Text style={styles.title}>🔢 Pari o Dispari?</Text>
@@ -43,7 +45,7 @@ export default function PariDispari() {
         <Text style={styles.numText}>{num}</Text>
       </View>
 
-      {feedback === 'correct' && <Text style={styles.correctText}>✅ Giusto! {num} è {num % 2 === 0 ? 'pari' : 'dispari'}</Text>}
+      {feedback === 'correct' && <Text style={styles.correctText}>✅ Bravissimo! 🌟 {num} è {num % 2 === 0 ? 'pari' : 'dispari'}</Text>}
       {feedback === 'wrong' && <Text style={styles.wrongText}>❌ {num} è {num % 2 === 0 ? 'pari' : 'dispari'}!</Text>}
 
       <View style={styles.buttons}>

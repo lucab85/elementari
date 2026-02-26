@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Animated, ScrollView } from '
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '../../constants/theme';
+import { hapticCorrect, hapticWrong, hapticTap, getCorrectMessage, getWrongMessage } from '../../components/KidsFeedback';
 
 const analisiQs = [
   { word: 'Il', sentence: '___ gatto dorme.', question: 'Che cos\'è "il"?', options: ['Articolo', 'Nome', 'Verbo', 'Aggettivo'], correct: 0 },
@@ -39,6 +40,7 @@ export default function Analisi() {
     if (feedback !== null) return;
     const correct = i === q.correct;
     setFeedback(correct ? 'correct' : 'wrong');
+    if (correct) hapticCorrect(); else hapticWrong();
     if (correct) {
       setScore(score + 1);
       Animated.sequence([Animated.spring(bounceAnim, { toValue: 1.2, useNativeDriver: true }), Animated.spring(bounceAnim, { toValue: 1, useNativeDriver: true })]).start();
@@ -54,7 +56,7 @@ export default function Analisi() {
         <Text style={styles.doneText}>Analisi finita!</Text>
         <Text style={styles.doneScore}>{score}/{questions.length} ({pct}%)</Text>
         <TouchableOpacity style={styles.retryBtn} onPress={() => { setIdx(0); setScore(0); setDone(false); setFeedback(null); }}><Text style={styles.retryBtnText}>Riprova</Text></TouchableOpacity>
-        <TouchableOpacity onPress={() => router.back()} style={{ marginTop: 16 }}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }} style={{ marginTop: 16 }}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
       </View>
     );
   }
@@ -62,7 +64,7 @@ export default function Analisi() {
   return (
     <ScrollView style={[styles.container, { paddingTop: insets.top }]} contentContainerStyle={styles.content}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
         <Animated.Text style={[styles.scoreText, { transform: [{ scale: bounceAnim }] }]}>⭐ {score}</Animated.Text>
       </View>
       <Text style={styles.title}>🔍 Analisi Grammaticale</Text>
@@ -74,8 +76,8 @@ export default function Analisi() {
         <Text style={styles.questionText}>{q.question}</Text>
       </View>
 
-      {feedback === 'correct' && <Text style={styles.correctText}>✅ Esatto!</Text>}
-      {feedback === 'wrong' && <Text style={styles.wrongText}>❌ Era: {q.options[q.correct]}</Text>}
+      {feedback === 'correct' && <Text style={styles.correctText}>✅ Perfetto! 🎯</Text>}
+      {feedback === 'wrong' && <Text style={styles.wrongText}>💡 Era: {q.options[q.correct]}</Text>}
 
       <View style={styles.options}>
         {q.options.map((opt, i) => (
@@ -103,11 +105,11 @@ const styles = StyleSheet.create({
   sentence: { fontSize: 20, color: COLORS.textLight, marginBottom: 12, fontStyle: 'italic' },
   wordBadge: { backgroundColor: COLORS.italianoLight, paddingHorizontal: 20, paddingVertical: 10, borderRadius: 16, marginBottom: 12 },
   wordText: { fontSize: 28, fontWeight: '800', color: IT_COLOR },
-  questionText: { fontSize: 18, fontWeight: '600', color: COLORS.text, textAlign: 'center' },
+  questionText: { fontSize: 24, fontWeight: '600', color: COLORS.text, textAlign: 'center' },
   correctText: { fontSize: 20, textAlign: 'center', marginBottom: 12, color: COLORS.correct },
   wrongText: { fontSize: 20, textAlign: 'center', marginBottom: 12, color: COLORS.wrong },
   options: { gap: 10 },
-  optionBtn: { backgroundColor: COLORS.white, borderRadius: 16, padding: 18, alignItems: 'center', borderWidth: 2, borderColor: COLORS.italianoLight },
+  optionBtn: { backgroundColor: COLORS.white, borderRadius: 16, padding: 20, alignItems: 'center', borderWidth: 2, borderColor: COLORS.italianoLight },
   optionCorrect: { backgroundColor: '#D5F5E3', borderColor: COLORS.correct },
   optionFaded: { opacity: 0.4 },
   optionText: { fontSize: 19, fontWeight: '700', color: IT_COLOR },

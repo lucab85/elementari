@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Animated } from '
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS, SHADOWS } from '../../constants/theme';
+import { hapticCorrect, hapticWrong, hapticTap, getCorrectMessage, getWrongMessage } from '../../components/KidsFeedback';
 
 const exercises = [
   { text: 'Ciao come stai', options: ['Ciao come stai?', 'Ciao come stai.', 'Ciao come stai!'], correct: 0, hint: 'È una domanda!' },
@@ -55,7 +56,7 @@ export default function Punteggiatura() {
           <Text style={styles.doneStars}>{stars}</Text>
           <Text style={styles.doneTitle}>Completato!</Text>
           <Text style={styles.doneScore}>{score} / {questions.length} ({pct}%)</Text>
-          <TouchableOpacity style={styles.doneBtn} onPress={() => router.back()}>
+          <TouchableOpacity style={styles.doneBtn} onPress={() => { hapticTap(); router.back(); }}>
             <Text style={styles.doneBtnText}>← Torna all'Italiano</Text>
           </TouchableOpacity>
         </View>
@@ -65,7 +66,7 @@ export default function Punteggiatura() {
 
   return (
     <ScrollView style={[styles.container, { paddingTop: insets.top }]} contentContainerStyle={styles.content}>
-      <TouchableOpacity onPress={() => router.back()} style={styles.back}>
+      <TouchableOpacity onPress={() => { hapticTap(); router.back(); }} style={styles.back}>
         <Text style={styles.backText}>← Indietro</Text>
       </TouchableOpacity>
 
@@ -122,7 +123,7 @@ const styles = StyleSheet.create({
   instructions: { fontSize: 15, color: COLORS.textLight, marginBottom: 16 },
   qCard: { backgroundColor: COLORS.italianoLight, padding: 24, borderRadius: 20, marginBottom: 20, ...SHADOWS.card },
   qText: { fontSize: 20, fontWeight: '600', color: COLORS.text, textAlign: 'center', fontStyle: 'italic' },
-  optBtn: { padding: 16, borderRadius: 14, marginBottom: 10, ...SHADOWS.card },
+  optBtn: { padding: 16, borderRadius: 18, marginBottom: 10, ...SHADOWS.card },
   optText: { fontSize: 16, fontWeight: '600', color: COLORS.text },
   hintBtn: { alignSelf: 'center', paddingVertical: 8, paddingHorizontal: 16 },
   hintBtnText: { fontSize: 16, color: COLORS.italiano, fontWeight: '600' },

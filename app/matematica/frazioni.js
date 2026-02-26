@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Animated, ScrollView } from '
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '../../constants/theme';
+import { hapticCorrect, hapticWrong, hapticTap, getCorrectMessage, getWrongMessage } from '../../components/KidsFeedback';
 
 const fractionQs = [
   { visual: '🟦🟦🟦⬜⬜', question: 'Che frazione è colorata?', options: ['3/5', '2/5', '3/4', '2/3'], correct: 0 },
@@ -37,6 +38,7 @@ export default function Frazioni() {
     if (feedback !== null) return;
     const correct = i === q.correct;
     setFeedback(correct ? 'correct' : 'wrong');
+    if (correct) hapticCorrect(); else hapticWrong();
     if (correct) {
       setScore(score + 1);
       Animated.sequence([Animated.spring(bounceAnim, { toValue: 1.2, useNativeDriver: true }), Animated.spring(bounceAnim, { toValue: 1, useNativeDriver: true })]).start();
@@ -52,7 +54,7 @@ export default function Frazioni() {
         <Text style={styles.doneText}>Frazioni finite!</Text>
         <Text style={styles.doneScore}>{score}/{questions.length} ({pct}%)</Text>
         <TouchableOpacity style={styles.retryBtn} onPress={() => { setIdx(0); setScore(0); setDone(false); setFeedback(null); }}><Text style={styles.retryBtnText}>Riprova</Text></TouchableOpacity>
-        <TouchableOpacity onPress={() => router.back()} style={{ marginTop: 16 }}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }} style={{ marginTop: 16 }}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
       </View>
     );
   }
@@ -60,7 +62,7 @@ export default function Frazioni() {
   return (
     <ScrollView style={[styles.container, { paddingTop: insets.top }]} contentContainerStyle={styles.content}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
         <Animated.Text style={[styles.scoreText, { transform: [{ scale: bounceAnim }] }]}>⭐ {score}</Animated.Text>
       </View>
       <Text style={styles.title}>🍕 Frazioni</Text>
@@ -71,8 +73,8 @@ export default function Frazioni() {
         <Text style={styles.questionText}>{q.question}</Text>
       </View>
 
-      {feedback === 'correct' && <Text style={styles.correctText}>✅ Bravo!</Text>}
-      {feedback === 'wrong' && <Text style={styles.wrongText}>❌ Era: {q.options[q.correct]}</Text>}
+      {feedback === 'correct' && <Text style={styles.correctText}>✅ Grande! 💪</Text>}
+      {feedback === 'wrong' && <Text style={styles.wrongText}>💡 Era: {q.options[q.correct]}</Text>}
 
       <View style={styles.options}>
         {q.options.map((opt, i) => (

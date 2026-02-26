@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Animated } from '
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '../../constants/theme';
+import { hapticCorrect, hapticWrong, hapticTap, getCorrectMessage, getWrongMessage } from '../../components/KidsFeedback';
 
 const verbiQs = [
   { infinito: 'Andare', tempo: 'Presente - Io', options: ['Vado', 'Ando', 'Vai', 'Andiamo'], correct: 0 },
@@ -40,6 +41,7 @@ export default function Verbi() {
     if (feedback !== null) return;
     const correct = i === q.correct;
     setFeedback(correct ? 'correct' : 'wrong');
+    if (correct) hapticCorrect(); else hapticWrong();
     if (correct) {
       setScore(score + 1);
       Animated.sequence([Animated.spring(bounceAnim, { toValue: 1.2, useNativeDriver: true }), Animated.spring(bounceAnim, { toValue: 1, useNativeDriver: true })]).start();
@@ -54,7 +56,7 @@ export default function Verbi() {
         <Text style={{ fontSize: 72 }}>{pct >= 80 ? '🏆' : '💪'}</Text>
         <Text style={styles.doneText}>{score}/{questions.length} ({pct}%)</Text>
         <TouchableOpacity style={styles.retryBtn} onPress={() => { setIdx(0); setScore(0); setDone(false); setFeedback(null); }}><Text style={styles.retryBtnText}>Riprova</Text></TouchableOpacity>
-        <TouchableOpacity onPress={() => router.back()} style={{ marginTop: 16 }}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }} style={{ marginTop: 16 }}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
       </View>
     );
   }
@@ -62,7 +64,7 @@ export default function Verbi() {
   return (
     <ScrollView style={[styles.container, { paddingTop: insets.top }]} contentContainerStyle={styles.content}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
         <Animated.Text style={[styles.scoreText, { transform: [{ scale: bounceAnim }] }]}>⭐ {score}</Animated.Text>
       </View>
       <Text style={styles.title}>🔤 Verbi Irregolari</Text>
@@ -73,8 +75,8 @@ export default function Verbi() {
         <Text style={styles.tempoText}>{q.tempo}</Text>
       </View>
 
-      {feedback === 'correct' && <Text style={styles.correctText}>✅ Bravo!</Text>}
-      {feedback === 'wrong' && <Text style={styles.wrongText}>❌ Era: {q.options[q.correct]}</Text>}
+      {feedback === 'correct' && <Text style={styles.correctText}>✅ Grande! 💪</Text>}
+      {feedback === 'wrong' && <Text style={styles.wrongText}>💡 Era: {q.options[q.correct]}</Text>}
 
       <View style={styles.options}>
         {q.options.map((opt, i) => (
@@ -105,7 +107,7 @@ const styles = StyleSheet.create({
   correctText: { fontSize: 20, textAlign: 'center', marginBottom: 12, color: COLORS.correct },
   wrongText: { fontSize: 20, textAlign: 'center', marginBottom: 12, color: COLORS.wrong },
   options: { gap: 10 },
-  optionBtn: { backgroundColor: COLORS.white, borderRadius: 16, padding: 18, alignItems: 'center', borderWidth: 2, borderColor: COLORS.italianoLight },
+  optionBtn: { backgroundColor: COLORS.white, borderRadius: 16, padding: 20, alignItems: 'center', borderWidth: 2, borderColor: COLORS.italianoLight },
   optionCorrect: { backgroundColor: '#D5F5E3', borderColor: COLORS.correct },
   optionFaded: { opacity: 0.4 },
   optionText: { fontSize: 22, fontWeight: '700', color: IT_COLOR },

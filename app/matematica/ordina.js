@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Animated, ScrollView } from '
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '../../constants/theme';
+import { hapticCorrect, hapticWrong, hapticTap, getCorrectMessage, getWrongMessage } from '../../components/KidsFeedback';
 
 function generateRound() {
   const count = 5;
@@ -63,7 +64,7 @@ export default function Ordina() {
   return (
     <ScrollView style={[styles.container, { paddingTop: insets.top }]} contentContainerStyle={styles.content}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
         <Animated.Text style={[styles.scoreText, { transform: [{ scale: bounceAnim }] }]}>⭐ {score}/{total}</Animated.Text>
       </View>
       <Text style={styles.title}>📊 Ordina i Numeri</Text>
@@ -82,7 +83,7 @@ export default function Ordina() {
         </View>
       )}
 
-      {feedback === 'correct' && <Text style={styles.correctText}>✅ Perfetto!</Text>}
+      {feedback === 'correct' && <Text style={styles.correctText}>✅ Fantastico! ⭐</Text>}
       {feedback === 'wrong' && <Text style={styles.wrongText}>❌ Ordine sbagliato, riprova!</Text>}
 
       <Text style={styles.tapHint}>Tocca i numeri nell'ordine giusto:</Text>
@@ -104,12 +105,12 @@ const styles = StyleSheet.create({
   backText: { fontSize: 16, color: COLORS.math, fontWeight: '600' },
   scoreText: { fontSize: 20, fontWeight: '700', color: COLORS.math },
   title: { fontSize: 28, fontWeight: '800', color: COLORS.math, marginBottom: 12 },
-  dirBadge: { backgroundColor: COLORS.mathLight, alignSelf: 'flex-start', paddingHorizontal: 16, paddingVertical: 8, borderRadius: 12, marginBottom: 20 },
+  dirBadge: { backgroundColor: COLORS.mathLight, alignSelf: 'flex-start', paddingHorizontal: 16, paddingVertical: 8, borderRadius: 16, marginBottom: 20 },
   dirText: { fontSize: 16, fontWeight: '600', color: COLORS.math },
   selectedRow: { flexDirection: 'row', gap: 8, marginBottom: 16, justifyContent: 'center', flexWrap: 'wrap' },
-  selectedChip: { backgroundColor: '#D5F5E3', borderRadius: 12, paddingHorizontal: 16, paddingVertical: 10, borderWidth: 2, borderColor: COLORS.correct },
+  selectedChip: { backgroundColor: '#D5F5E3', borderRadius: 16, paddingHorizontal: 16, paddingVertical: 10, borderWidth: 2, borderColor: COLORS.correct },
   selectedText: { fontSize: 22, fontWeight: '700', color: COLORS.correct },
-  placeholder: { backgroundColor: '#F0F0F0', borderRadius: 12, paddingHorizontal: 16, paddingVertical: 10, borderWidth: 2, borderColor: '#DDD', borderStyle: 'dashed' },
+  placeholder: { backgroundColor: '#F0F0F0', borderRadius: 16, paddingHorizontal: 16, paddingVertical: 10, borderWidth: 2, borderColor: '#DDD', borderStyle: 'dashed' },
   placeholderText: { fontSize: 22, fontWeight: '700', color: '#CCC' },
   correctText: { fontSize: 20, textAlign: 'center', marginBottom: 12, color: COLORS.correct, fontWeight: '600' },
   wrongText: { fontSize: 20, textAlign: 'center', marginBottom: 12, color: COLORS.wrong, fontWeight: '600' },

@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Animated } from '
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS, SHADOWS } from '../../constants/theme';
+import { hapticCorrect, hapticWrong, hapticTap, getCorrectMessage, getWrongMessage } from '../../components/KidsFeedback';
 
 const SCI_COLOR = '#8E44AD';
 const SCI_LIGHT = '#F4ECF7';
@@ -47,7 +48,7 @@ export default function CatenaAlimentare() {
     const c = catena[current];
     return (
       <ScrollView style={[styles.container, { paddingTop: insets.top }]} contentContainerStyle={styles.content}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.back}>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }} style={styles.back}>
           <Text style={styles.backText}>← Indietro</Text>
         </TouchableOpacity>
         <Text style={styles.title}>🔗 Catena Alimentare</Text>
@@ -122,7 +123,7 @@ export default function CatenaAlimentare() {
           <TouchableOpacity style={styles.doneBtn} onPress={() => { setMode('learn'); setQi(0); setScore(0); setSelected(null); setDone(false); }}>
             <Text style={styles.doneBtnText}>🔄 Riprova</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.doneBtn, { backgroundColor: '#666', marginTop: 10 }]} onPress={() => router.back()}>
+          <TouchableOpacity style={[styles.doneBtn, { backgroundColor: '#666', marginTop: 10 }]} onPress={() => { hapticTap(); router.back(); }}>
             <Text style={styles.doneBtnText}>← Torna alle Scienze</Text>
           </TouchableOpacity>
         </View>
@@ -172,7 +173,7 @@ const styles = StyleSheet.create({
   title: { fontSize: 28, fontWeight: '800', color: SCI_COLOR, marginBottom: 16 },
   chainRow: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: 20, flexWrap: 'wrap' },
   chainItem: { alignItems: 'center', flexDirection: 'row', padding: 6 },
-  chainActive: { backgroundColor: SCI_LIGHT, borderRadius: 12 },
+  chainActive: { backgroundColor: SCI_LIGHT, borderRadius: 16 },
   chainEmoji: { fontSize: 32 },
   chainArrow: { fontSize: 20, color: SCI_COLOR, marginLeft: 4 },
   learnCard: {
@@ -187,9 +188,9 @@ const styles = StyleSheet.create({
   exampleBadge: { backgroundColor: '#FFF', paddingHorizontal: 14, paddingVertical: 6, borderRadius: 16, margin: 4 },
   exampleText: { fontSize: 14, fontWeight: '600', color: SCI_COLOR },
   navRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20 },
-  navBtn: { backgroundColor: SCI_COLOR, paddingHorizontal: 16, paddingVertical: 12, borderRadius: 14 },
+  navBtn: { backgroundColor: SCI_COLOR, paddingHorizontal: 16, paddingVertical: 12, borderRadius: 18 },
   navText: { color: '#FFF', fontWeight: '700', fontSize: 14 },
-  quizStartBtn: { backgroundColor: '#2ECC71', paddingHorizontal: 20, paddingVertical: 12, borderRadius: 14 },
+  quizStartBtn: { backgroundColor: '#2ECC71', paddingHorizontal: 20, paddingVertical: 12, borderRadius: 18 },
   quizStartText: { color: '#FFF', fontWeight: '700', fontSize: 16 },
   progressRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 20 },
   progressBg: { flex: 1, height: 8, backgroundColor: '#E0E0E0', borderRadius: 4, marginRight: 10 },

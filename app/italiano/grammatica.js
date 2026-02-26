@@ -4,6 +4,7 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '../../constants/theme';
 import { verbiEssere, verbiAvere, nomiPlurali, articoli } from '../../data/grammatica';
+import { hapticCorrect, hapticWrong, hapticTap, getCorrectMessage, getWrongMessage } from '../../components/KidsFeedback';
 
 const topics = [verbiEssere, verbiAvere, nomiPlurali, articoli];
 
@@ -21,7 +22,7 @@ export default function Grammatica() {
   if (topicIdx === null) {
     return (
       <ScrollView style={[styles.container, { paddingTop: insets.top }]} contentContainerStyle={styles.content}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.back}>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }} style={styles.back}>
           <Text style={styles.backText}>← Indietro</Text>
         </TouchableOpacity>
         <Text style={styles.title}>📗 Grammatica</Text>
@@ -49,6 +50,7 @@ export default function Grammatica() {
     if (feedback !== null) return;
     const correct = i === q.correct;
     setFeedback(correct ? 'correct' : 'wrong');
+    if (correct) hapticCorrect(); else hapticWrong();
     if (correct) setScore(score + 1);
     setTimeout(() => {
       if (idx + 1 >= topic.questions.length) setDone(true);
@@ -66,7 +68,7 @@ export default function Grammatica() {
         <TouchableOpacity style={styles.retryBtn} onPress={() => { setIdx(0); setScore(0); setDone(false); setFeedback(null); }}>
           <Text style={styles.retryBtnText}>Riprova</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.back()} style={{ marginTop: 16 }}>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }} style={{ marginTop: 16 }}>
           <Text style={styles.backText}>← Grammatica</Text>
         </TouchableOpacity>
       </View>
@@ -75,7 +77,7 @@ export default function Grammatica() {
 
   return (
     <ScrollView style={[styles.container, { paddingTop: insets.top }]} contentContainerStyle={styles.content}>
-      <TouchableOpacity onPress={() => router.back()} style={styles.back}>
+      <TouchableOpacity onPress={() => { hapticTap(); router.back(); }} style={styles.back}>
         <Text style={styles.backText}>← Grammatica</Text>
       </TouchableOpacity>
       <Text style={styles.title}>{topic.emoji} {topic.title}</Text>
@@ -97,8 +99,8 @@ export default function Grammatica() {
         <Text style={styles.sentence}>{q.sentence || q.word}</Text>
       </View>
 
-      {feedback === 'correct' && <Text style={styles.correctText}>✅ Giusto!</Text>}
-      {feedback === 'wrong' && <Text style={styles.wrongText}>❌ Era: {q.options[q.correct]}</Text>}
+      {feedback === 'correct' && <Text style={styles.correctText}>✅ Bravissimo! 🌟</Text>}
+      {feedback === 'wrong' && <Text style={styles.wrongText}>💡 Era: {q.options[q.correct]}</Text>}
 
       <View style={styles.options}>
         {q.options.map((opt, i) => (
@@ -137,7 +139,7 @@ const styles = StyleSheet.create({
   correctText: { fontSize: 20, textAlign: 'center', marginBottom: 12, color: COLORS.correct },
   wrongText: { fontSize: 20, textAlign: 'center', marginBottom: 12, color: COLORS.wrong },
   options: { gap: 10 },
-  optionBtn: { backgroundColor: COLORS.white, borderRadius: 16, padding: 18, alignItems: 'center', borderWidth: 2, borderColor: COLORS.italianoLight },
+  optionBtn: { backgroundColor: COLORS.white, borderRadius: 16, padding: 20, alignItems: 'center', borderWidth: 2, borderColor: COLORS.italianoLight },
   optionCorrect: { backgroundColor: '#D5F5E3', borderColor: COLORS.correct },
   optionFaded: { opacity: 0.4 },
   optionText: { fontSize: 22, fontWeight: '700', color: COLORS.italiano },

@@ -4,6 +4,7 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '../../constants/theme';
 import { ortografiaTopics } from '../../data/italiano';
+import { hapticCorrect, hapticWrong, hapticTap, getCorrectMessage, getWrongMessage } from '../../components/KidsFeedback';
 
 export default function Ortografia() {
   const router = useRouter();
@@ -21,6 +22,7 @@ export default function Ortografia() {
     if (feedback !== null) return;
     const correct = i === q.correct;
     setFeedback(correct ? 'correct' : 'wrong');
+    if (correct) hapticCorrect(); else hapticWrong();
     if (correct) setScore(score + 1);
     setTimeout(() => {
       if (idx + 1 >= topicData.questions.length) {
@@ -41,7 +43,7 @@ export default function Ortografia() {
         <TouchableOpacity style={styles.retryBtn} onPress={() => { setIdx(0); setScore(0); setDone(false); setFeedback(null); }}>
           <Text style={styles.retryBtnText}>Riprova</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.back()} style={{ marginTop: 16 }}>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }} style={{ marginTop: 16 }}>
           <Text style={styles.backText}>← Torna a Italiano</Text>
         </TouchableOpacity>
       </View>
@@ -50,7 +52,7 @@ export default function Ortografia() {
 
   return (
     <ScrollView style={[styles.container, { paddingTop: insets.top }]} contentContainerStyle={styles.content}>
-      <TouchableOpacity onPress={() => router.back()} style={styles.back}>
+      <TouchableOpacity onPress={() => { hapticTap(); router.back(); }} style={styles.back}>
         <Text style={styles.backText}>← Indietro</Text>
       </TouchableOpacity>
 
@@ -65,8 +67,8 @@ export default function Ortografia() {
         <Text style={styles.sentence}>{q.sentence}</Text>
       </View>
 
-      {feedback === 'correct' && <Text style={styles.correctText}>✅ Giusto!</Text>}
-      {feedback === 'wrong' && <Text style={styles.wrongText}>❌ Era: {q.options[q.correct]}</Text>}
+      {feedback === 'correct' && <Text style={styles.correctText}>✅ Bravissimo! 🌟</Text>}
+      {feedback === 'wrong' && <Text style={styles.wrongText}>💡 Era: {q.options[q.correct]}</Text>}
 
       <View style={styles.options}>
         {q.options.map((opt, i) => (

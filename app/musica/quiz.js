@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS, SHADOWS } from '../../constants/theme';
 import { musicaQuiz } from '../../data/musica';
 import { useTrackScreen, useTrackActivity } from '../../hooks/useAnalytics';
+import { hapticCorrect, hapticWrong, hapticTap, getCorrectMessage, getWrongMessage } from '../../components/KidsFeedback';
 
 const MUSICA_COLOR = '#E91E63';
 
@@ -56,7 +57,7 @@ export default function QuizMusica() {
           <Text style={styles.doneStars}>{stars}</Text>
           <Text style={styles.doneTitle}>Quiz Completato!</Text>
           <Text style={styles.doneScore}>{score} / {questions.length} ({pct}%)</Text>
-          <TouchableOpacity style={styles.doneBtn} onPress={() => router.back()}>
+          <TouchableOpacity style={styles.doneBtn} onPress={() => { hapticTap(); router.back(); }}>
             <Text style={styles.doneBtnText}>← Torna alla Musica</Text>
           </TouchableOpacity>
         </View>
@@ -67,7 +68,7 @@ export default function QuizMusica() {
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
       <View style={styles.content}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.back}>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }} style={styles.back}>
           <Text style={styles.backText}>← Indietro</Text>
         </TouchableOpacity>
 
