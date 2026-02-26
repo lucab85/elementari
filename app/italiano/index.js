@@ -12,6 +12,7 @@ const activities = [
   ...ortografiaCards,
   { title: 'Descrizione guidata', emoji: '📝', desc: 'Esercitati a scrivere', route: '/italiano/descrizione' },
   { title: 'Poesie e Letture', emoji: '📜', desc: 'Leggi e rispondi', route: '/italiano/poesie' },
+  { title: 'Grammatica', emoji: '📗', desc: 'Verbi, plurali, articoli', route: '/italiano/grammatica' },
 ];
 
 export default function Italiano() {
