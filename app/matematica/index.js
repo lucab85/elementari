@@ -1,0 +1,62 @@
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { COLORS, SHADOWS } from '../../constants/theme';
+
+const activities = [
+  { title: 'Tabelline', emoji: '✖️', desc: 'Ripassa le tabelline!', route: '/matematica/tabelline' },
+  { title: 'Addizioni e Sottrazioni', emoji: '➕', desc: 'Calcola a mente', route: '/matematica/operazioni' },
+  { title: 'Moltiplicazioni', emoji: '🔢', desc: 'Moltiplica!', route: '/matematica/moltiplicazioni' },
+];
+
+export default function Matematica() {
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
+
+  return (
+    <ScrollView style={[styles.container, { paddingTop: insets.top }]} contentContainerStyle={styles.content}>
+      <TouchableOpacity onPress={() => router.back()} style={styles.back}>
+        <Text style={styles.backText}>← Indietro</Text>
+      </TouchableOpacity>
+      <Text style={styles.title}>🔢 Matematica</Text>
+
+      {activities.map((a) => (
+        <TouchableOpacity
+          key={a.title}
+          style={styles.card}
+          activeOpacity={0.7}
+          onPress={() => router.push(a.route)}
+        >
+          <Text style={styles.emoji}>{a.emoji}</Text>
+          <View style={styles.cardContent}>
+            <Text style={styles.cardTitle}>{a.title}</Text>
+            <Text style={styles.cardDesc}>{a.desc}</Text>
+          </View>
+          <Text style={styles.arrow}>→</Text>
+        </TouchableOpacity>
+      ))}
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: COLORS.bg },
+  content: { padding: 24, paddingBottom: 40 },
+  back: { marginBottom: 8 },
+  backText: { fontSize: 16, color: COLORS.math, fontWeight: '600' },
+  title: { fontSize: 32, fontWeight: '800', color: COLORS.math, marginBottom: 24 },
+  card: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: COLORS.mathLight,
+    padding: 20,
+    borderRadius: 16,
+    marginBottom: 14,
+    ...SHADOWS.card,
+  },
+  emoji: { fontSize: 36, marginRight: 14 },
+  cardContent: { flex: 1 },
+  cardTitle: { fontSize: 20, fontWeight: '700', color: COLORS.math },
+  cardDesc: { fontSize: 14, color: COLORS.textLight, marginTop: 2 },
+  arrow: { fontSize: 24, color: COLORS.textLight },
+});
