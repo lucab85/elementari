@@ -7,13 +7,15 @@ import { COLORS, SHADOWS } from '../constants/theme';
 import { getTotalStars } from '../data/progress';
 
 const subjects = [
-  { title: 'Matematica', emoji: '🔢', color: COLORS.math, lightColor: COLORS.mathLight, route: '/matematica', desc: '12 attività: tabelline, problemi, geometria...' },
-  { title: 'Italiano', emoji: '📖', color: COLORS.italiano, lightColor: COLORS.italianoLight, route: '/italiano', desc: 'Ortografia, grammatica, poesie, descrizioni' },
+  { title: 'Matematica', emoji: '🔢', color: COLORS.math, lightColor: COLORS.mathLight, route: '/matematica', desc: '19 attività: tabelline, problemi, geometria...' },
+  { title: 'Italiano', emoji: '📖', color: COLORS.italiano, lightColor: COLORS.italianoLight, route: '/italiano', desc: 'Ortografia, grammatica, punteggiatura, poesie' },
   { title: 'Storia', emoji: '🦕', color: COLORS.storia, lightColor: COLORS.storiaLight, route: '/storia', desc: 'Preistoria, storia d\'Italia, quiz' },
-  { title: 'Scienze', emoji: '🔬', color: '#8E44AD', lightColor: '#F4ECF7', route: '/scienze', desc: 'Sistema Solare, corpo umano, quiz' },
+  { title: 'Scienze', emoji: '🔬', color: '#8E44AD', lightColor: '#F4ECF7', route: '/scienze', desc: 'Sistema Solare, corpo umano, catena alimentare' },
   { title: 'Geografia', emoji: '🌍', color: '#1ABC9C', lightColor: '#D1F2EB', route: '/geografia', desc: '20 regioni d\'Italia e quiz' },
   { title: 'Inglese', emoji: '🇬🇧', color: '#E67E22', lightColor: '#FDEBD0', route: '/inglese', desc: '65+ parole e quiz' },
   { title: 'Ed. Civica', emoji: '🏛️', color: '#27AE60', lightColor: '#D5F5E3', route: '/civica', desc: 'Diritti, regole, Costituzione' },
+  { title: 'Musica', emoji: '🎵', color: '#E91E63', lightColor: '#FCE4EC', route: '/musica', desc: 'Note, strumenti e quiz' },
+  { title: 'Arte', emoji: '🎨', color: '#FF6F00', lightColor: '#FFF3E0', route: '/arte', desc: 'Colori e pittori' },
   { title: 'I Miei Compiti', emoji: '📝', color: COLORS.compiti, lightColor: COLORS.compitiLight, route: '/compiti', desc: 'La tua lista compiti' },
 ];
 

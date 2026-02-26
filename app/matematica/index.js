@@ -21,6 +21,7 @@ const activities = [
   { title: 'Ordina i Numeri', emoji: '📊', desc: 'Metti in ordine', route: '/matematica/ordina' },
   { title: 'Sequenze', emoji: '🔢', desc: 'Trova il numero mancante', route: '/matematica/sequenze' },
   { title: 'Potenze', emoji: '💪', desc: 'Quadrati e cubi', route: '/matematica/potenze' },
+  { title: 'Percentuali', emoji: '💯', desc: '10%, 25%, 50%...', route: '/matematica/percentuali' },
   { title: 'Tabellone', emoji: '📋', desc: 'Tutte le tabelline', route: '/matematica/tabellone' },
 ];
 
