@@ -11,6 +11,7 @@ const subjects = [
   { title: 'Italiano', emoji: '📖', color: COLORS.italiano, lightColor: COLORS.italianoLight, route: '/italiano', desc: 'Ortografia, poesie, descrizioni' },
   { title: 'Storia e Scienze', emoji: '🦕', color: COLORS.storia, lightColor: COLORS.storiaLight, route: '/storia', desc: 'Animali preistorici e quiz' },
   { title: 'Geografia', emoji: '🌍', color: '#1ABC9C', lightColor: '#D1F2EB', route: '/geografia', desc: 'Regioni d\'Italia e quiz' },
+  { title: 'Inglese', emoji: '🇬🇧', color: '#E67E22', lightColor: '#FDEBD0', route: '/inglese', desc: 'Vocabolario e quiz' },
   { title: 'I Miei Compiti', emoji: '📝', color: COLORS.compiti, lightColor: COLORS.compitiLight, route: '/compiti', desc: 'La tua lista compiti' },
 ];
 
