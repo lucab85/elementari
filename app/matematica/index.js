@@ -12,6 +12,7 @@ const activities = [
   { title: 'Confronta', emoji: '⚖️', desc: 'Maggiore, minore o uguale?', route: '/matematica/confronta' },
   { title: 'Numeri Romani', emoji: '🏛️', desc: 'I, V, X, L, C, D, M', route: '/matematica/numeriromani' },
   { title: 'L\'Orologio', emoji: '🕐', desc: 'Che ore sono?', route: '/matematica/orologio' },
+  { title: 'Equivalenze', emoji: '📏', desc: 'km↔m, kg↔g, l↔ml', route: '/matematica/equivalenze' },
   { title: 'Tabellone', emoji: '📋', desc: 'Tutte le tabelline', route: '/matematica/tabellone' },
 ];
 
