@@ -7,7 +7,9 @@ const activities = [
   { title: 'Tabelline', emoji: '✖️', desc: 'Ripassa le tabelline del 2-9!', route: '/matematica/tabelline' },
   { title: 'Addizioni e Sottrazioni', emoji: '➕', desc: 'Calcola a mente', route: '/matematica/operazioni' },
   { title: 'Moltiplicazioni', emoji: '🔢', desc: 'Da facile a difficile', route: '/matematica/moltiplicazioni' },
+  { title: 'Divisioni', emoji: '➗', desc: 'Dividi!', route: '/matematica/divisioni' },
   { title: 'Trova il numero', emoji: '🔍', desc: 'Completa le operazioni', route: '/matematica/trovailnumero' },
+  { title: 'Tabellone', emoji: '📋', desc: 'Tutte le tabelline', route: '/matematica/tabellone' },
 ];
 
 export default function Matematica() {

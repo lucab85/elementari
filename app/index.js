@@ -7,9 +7,10 @@ import { COLORS, SHADOWS } from '../constants/theme';
 import { getTotalStars } from '../data/progress';
 
 const subjects = [
-  { title: 'Matematica', emoji: '🔢', color: COLORS.math, lightColor: COLORS.mathLight, route: '/matematica', desc: 'Tabelline, operazioni, moltiplicazioni' },
-  { title: 'Italiano', emoji: '📖', color: COLORS.italiano, lightColor: COLORS.italianoLight, route: '/italiano', desc: 'Ortografia e descrizioni' },
+  { title: 'Matematica', emoji: '🔢', color: COLORS.math, lightColor: COLORS.mathLight, route: '/matematica', desc: 'Tabelline, operazioni, divisioni' },
+  { title: 'Italiano', emoji: '📖', color: COLORS.italiano, lightColor: COLORS.italianoLight, route: '/italiano', desc: 'Ortografia, poesie, descrizioni' },
   { title: 'Storia e Scienze', emoji: '🦕', color: COLORS.storia, lightColor: COLORS.storiaLight, route: '/storia', desc: 'Animali preistorici e quiz' },
+  { title: 'Geografia', emoji: '🌍', color: '#1ABC9C', lightColor: '#D1F2EB', route: '/geografia', desc: 'Regioni d\'Italia e quiz' },
   { title: 'I Miei Compiti', emoji: '📝', color: COLORS.compiti, lightColor: COLORS.compitiLight, route: '/compiti', desc: 'La tua lista compiti' },
 ];
 

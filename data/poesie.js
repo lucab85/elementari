@@ -23,22 +23,84 @@ sotto gli occhi.`,
     ],
   },
   {
-    title: 'Filastrocca del primo giorno di scuola',
+    title: 'Ci vuole un fiore',
     author: 'Gianni Rodari',
-    emoji: '🏫',
-    text: `Suona la satisfato sveglia,
-la colazione è in fretta,
-lo zaino sulla schiena,
-la corsa alla banchina.
-
-È il primo giorno di scuola,
-tutto è nuovo e bello,
-i quaderni son puliti
-e l'astuccio è quello.`,
+    emoji: '🌸',
+    text: `Per fare un tavolo
+ci vuole il legno,
+per fare il legno
+ci vuole l'albero,
+per fare l'albero
+ci vuole il seme,
+per fare il seme
+ci vuole il frutto,
+per fare il frutto
+ci vuole il fiore:
+ci vuole un fiore,
+ci vuole un fiore.`,
     questions: [
-      { q: 'Cosa suona la mattina?', options: ['Il campanello', 'La sveglia', 'Il telefono'], correct: 1 },
-      { q: 'Dove si mette lo zaino?', options: ['Sulla schiena', 'Per terra', 'Sul banco'], correct: 0 },
-      { q: 'I quaderni sono...', options: ['Vecchi', 'Rotti', 'Puliti'], correct: 2 },
+      { q: 'Per fare un tavolo ci vuole...', options: ['Il ferro', 'Il legno', 'La plastica'], correct: 1 },
+      { q: 'Per fare il legno ci vuole...', options: ['L\'albero', 'Il seme', 'Il fiore'], correct: 0 },
+      { q: 'Per fare il seme ci vuole...', options: ['L\'albero', 'La terra', 'Il frutto'], correct: 2 },
+      { q: 'Chi ha scritto questa filastrocca?', options: ['Ada Negri', 'Gianni Rodari', 'Trilussa'], correct: 1 },
+    ],
+  },
+  {
+    title: 'Il treno dei bambini',
+    author: 'Gianni Rodari',
+    emoji: '🚂',
+    text: `C'è un treno che parte
+per un paese speciale,
+dove nessuno litiga
+e non si sta mai male.
+
+Il biglietto è un sorriso,
+il controllore è un gatto,
+e chi arriva per primo
+fa un bell'applauso matto.`,
+    questions: [
+      { q: 'Come si prende il treno?', options: ['Con i soldi', 'Con un sorriso', 'Con un biglietto'], correct: 1 },
+      { q: 'Chi è il controllore?', options: ['Un cane', 'Un gatto', 'Un topo'], correct: 1 },
+      { q: 'Nel paese speciale nessuno...', options: ['Ride', 'Litiga', 'Gioca'], correct: 1 },
+    ],
+  },
+  {
+    title: 'Filastrocca corta e matta',
+    author: 'Gianni Rodari',
+    emoji: '🤪',
+    text: `Filastrocca corta corta,
+il porto ha una porta,
+la porta ha un porto.
+Dove portal il passaporto?
+
+Filastrocca corta e matta,
+il topo ha la gatta,
+la gatta ha il topo...
+Quanti, troppi, nessuno e dopo?`,
+    questions: [
+      { q: 'Questa filastrocca è...', options: ['Lunga e seria', 'Corta e matta', 'Triste e lenta'], correct: 1 },
+      { q: 'Il porto ha una...', options: ['Porta', 'Finestra', 'Scala'], correct: 0 },
+      { q: 'Il topo ha la...', options: ['Casa', 'Gatta', 'Coda'], correct: 1 },
+    ],
+  },
+  {
+    title: 'San Martino',
+    author: 'Giosuè Carducci',
+    emoji: '🍂',
+    text: `La nebbia a gl'irti colli
+piovigginando sale,
+e sotto il maestrale
+urla e biancheggia il mar;
+
+ma per le vie del borgo
+dal ribollir de' tini
+va l'aspro odor dei vini
+l'anime a rallegrar.`,
+    questions: [
+      { q: 'Cosa fa la nebbia?', options: ['Scende', 'Sale', 'Resta ferma'], correct: 1 },
+      { q: 'Cosa urla e biancheggia?', options: ['Il vento', 'Il mare', 'La neve'], correct: 1 },
+      { q: 'Che odore c\'è nel borgo?', options: ['Di fiori', 'Di vini', 'Di pane'], correct: 1 },
+      { q: 'Chi ha scritto questa poesia?', options: ['Rodari', 'Carducci', 'Negri'], correct: 1 },
     ],
   },
 ];
