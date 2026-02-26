@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '../../constants/theme';
 import { scienzeQuiz } from '../../data/scienze';
+import { hapticCorrect, hapticWrong, hapticTap, getCorrectMessage, getWrongMessage } from '../../components/KidsFeedback';
 
 const SCI_COLOR = '#8E44AD';
 const SCI_LIGHT = '#F4ECF7';
@@ -23,6 +24,7 @@ export default function SciQuiz() {
     if (feedback !== null) return;
     const correct = i === q.correct;
     setFeedback(correct ? 'correct' : 'wrong');
+    if (correct) hapticCorrect(); else hapticWrong();
     if (correct) { setScore(score + 1); Animated.sequence([Animated.spring(scaleAnim, { toValue: 1.3, useNativeDriver: true }), Animated.spring(scaleAnim, { toValue: 1, useNativeDriver: true })]).start(); }
     setTimeout(() => { if (idx + 1 >= questions.length) setDone(true); else { setIdx(idx + 1); setFeedback(null); } }, correct ? 800 : 2000);
   };
@@ -37,7 +39,7 @@ export default function SciQuiz() {
         <TouchableOpacity style={styles.retryBtn} onPress={() => { setIdx(0); setScore(0); setDone(false); setFeedback(null); }}>
           <Text style={styles.retryBtnText}>Riprova</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.back()} style={{ marginTop: 16 }}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }} style={{ marginTop: 16 }}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
       </View>
     );
   }
@@ -45,7 +47,7 @@ export default function SciQuiz() {
   return (
     <ScrollView style={[styles.container, { paddingTop: insets.top }]} contentContainerStyle={styles.content}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
         <Animated.Text style={[styles.scoreLabel, { transform: [{ scale: scaleAnim }] }]}>⭐ {score}</Animated.Text>
       </View>
       <Text style={styles.title}>🔬 Quiz Scienze</Text>
@@ -53,8 +55,8 @@ export default function SciQuiz() {
         {questions.map((_, i) => <View key={i} style={[styles.dot, i === idx && styles.dotActive, i < idx && styles.dotDone]} />)}
       </View>
       <View style={styles.questionBox}><Text style={styles.questionText}>{q.question}</Text></View>
-      {feedback === 'correct' && <Text style={styles.correctText}>✅ Esatto!</Text>}
-      {feedback === 'wrong' && <Text style={styles.wrongText}>❌ Era: {q.options[q.correct]}</Text>}
+      {feedback === 'correct' && <Text style={styles.correctText}>✅ Perfetto! 🎯</Text>}
+      {feedback === 'wrong' && <Text style={styles.wrongText}>💡 Era: {q.options[q.correct]}</Text>}
       <View style={styles.options}>
         {q.options.map((opt, i) => (
           <TouchableOpacity key={i} style={[styles.optionBtn, feedback && i === q.correct && styles.optionCorrect, feedback === 'wrong' && i !== q.correct && styles.optionFaded]}
@@ -81,11 +83,11 @@ const styles = StyleSheet.create({
   dotDone: { backgroundColor: '#2ECC71' },
   questionBox: { backgroundColor: COLORS.white, borderRadius: 20, padding: 24, marginBottom: 20,
     shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1, shadowRadius: 12, elevation: 5 },
-  questionText: { fontSize: 22, fontWeight: '600', color: COLORS.text, lineHeight: 30 },
+  questionText: { fontSize: 24, fontWeight: '600', color: COLORS.text, lineHeight: 30 },
   correctText: { fontSize: 20, textAlign: 'center', marginBottom: 12, color: COLORS.correct },
   wrongText: { fontSize: 20, textAlign: 'center', marginBottom: 12, color: COLORS.wrong },
   options: { gap: 10 },
-  optionBtn: { backgroundColor: COLORS.white, borderRadius: 16, padding: 18, alignItems: 'center', borderWidth: 2, borderColor: SCI_LIGHT },
+  optionBtn: { backgroundColor: COLORS.white, borderRadius: 16, padding: 20, alignItems: 'center', borderWidth: 2, borderColor: SCI_LIGHT },
   optionCorrect: { backgroundColor: '#D5F5E3', borderColor: COLORS.correct },
   optionFaded: { opacity: 0.4 },
   optionText: { fontSize: 19, fontWeight: '700', color: SCI_COLOR },

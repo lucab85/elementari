@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS, SHADOWS } from '../../constants/theme';
 import { arteQuiz } from '../../data/arte';
 import { useTrackScreen, useTrackActivity } from '../../hooks/useAnalytics';
+import { hapticCorrect, hapticWrong, hapticTap, getCorrectMessage, getWrongMessage } from '../../components/KidsFeedback';
 
 const ARTE_COLOR = '#FF6F00';
 
@@ -48,7 +49,7 @@ export default function QuizArte() {
           <Text style={styles.doneStars}>{stars}</Text>
           <Text style={styles.doneTitle}>Quiz Completato!</Text>
           <Text style={styles.doneScore}>{score} / {questions.length} ({pct}%)</Text>
-          <TouchableOpacity style={styles.doneBtn} onPress={() => router.back()}>
+          <TouchableOpacity style={styles.doneBtn} onPress={() => { hapticTap(); router.back(); }}>
             <Text style={styles.doneBtnText}>← Torna all'Arte</Text>
           </TouchableOpacity>
         </View>
@@ -59,7 +60,7 @@ export default function QuizArte() {
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
       <View style={styles.content}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.back}>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }} style={styles.back}>
           <Text style={styles.backText}>← Indietro</Text>
         </TouchableOpacity>
         <View style={styles.progressRow}>

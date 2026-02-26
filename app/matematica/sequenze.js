@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Animated, ScrollView } from '
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '../../constants/theme';
+import { hapticCorrect, hapticWrong, hapticTap, getCorrectMessage, getWrongMessage } from '../../components/KidsFeedback';
 
 function generateSequence() {
   const types = [
@@ -33,6 +34,7 @@ export default function Sequenze() {
     if (feedback !== null) return;
     const correct = i === q.correct;
     setFeedback(correct ? 'correct' : 'wrong');
+    if (correct) hapticCorrect(); else hapticWrong();
     setTotal(total + 1);
     if (correct) {
       setScore(score + 1);
@@ -44,7 +46,7 @@ export default function Sequenze() {
   return (
     <ScrollView style={[styles.container, { paddingTop: insets.top }]} contentContainerStyle={styles.content}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
         <Animated.Text style={[styles.scoreText, { transform: [{ scale: bounceAnim }] }]}>⭐ {score}/{total}</Animated.Text>
       </View>
       <Text style={styles.title}>🔢 Sequenze Numeriche</Text>
@@ -62,8 +64,8 @@ export default function Sequenze() {
         </View>
       </View>
 
-      {feedback === 'correct' && <Text style={styles.correctText}>✅ Giusto! Era {q.answer}</Text>}
-      {feedback === 'wrong' && <Text style={styles.wrongText}>❌ Era {q.answer} (regola: {q.hint})</Text>}
+      {feedback === 'correct' && <Text style={styles.correctText}>✅ Bravissimo! 🌟 Era {q.answer}</Text>}
+      {feedback === 'wrong' && <Text style={styles.wrongText}>💡 Era: {q.answer} (regola: {q.hint})</Text>}
 
       <View style={styles.options}>
         {q.options.map((opt, i) => (
@@ -88,7 +90,7 @@ const styles = StyleSheet.create({
   seqBox: { backgroundColor: COLORS.white, borderRadius: 24, padding: 20, marginBottom: 20,
     shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1, shadowRadius: 12, elevation: 5 },
   seqRow: { flexDirection: 'row', justifyContent: 'center', gap: 6, flexWrap: 'wrap' },
-  numCell: { backgroundColor: COLORS.mathLight, borderRadius: 12, paddingVertical: 14, paddingHorizontal: 12, minWidth: 48, alignItems: 'center' },
+  numCell: { backgroundColor: COLORS.mathLight, borderRadius: 16, paddingVertical: 14, paddingHorizontal: 12, minWidth: 48, alignItems: 'center' },
   numCellHidden: { backgroundColor: COLORS.math, borderStyle: 'dashed' },
   numCellText: { fontSize: 22, fontWeight: '700', color: COLORS.math },
   numCellTextHidden: { color: '#FFF' },

@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, TextInput, StyleSheet, Animated, Keyboard
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '../../constants/theme';
+import { hapticCorrect, hapticWrong, hapticTap, getCorrectMessage, getWrongMessage } from '../../components/KidsFeedback';
 
 // "Trova il numero mancante" - like the textbook exercises
 // e.g. 50 + ? = 175, or ? - 38 = 62
@@ -50,6 +51,7 @@ export default function TrovaIlNumero() {
     if (!input.trim()) return;
     const correct = parseInt(input) === q.answer;
     setFeedback(correct ? 'correct' : 'wrong');
+    if (correct) hapticCorrect(); else hapticWrong();
     setTotal(total + 1);
     if (correct) {
       setScore(score + 1);
@@ -64,7 +66,7 @@ export default function TrovaIlNumero() {
   return (
     <KeyboardAvoidingView style={[styles.container, { paddingTop: insets.top + 16 }]} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }}>
           <Text style={styles.backText}>← Indietro</Text>
         </TouchableOpacity>
         <Animated.Text style={[styles.scoreText, { transform: [{ scale: bounceAnim }] }]}>⭐ {score}/{total}</Animated.Text>
@@ -76,8 +78,8 @@ export default function TrovaIlNumero() {
         <Text style={styles.questionText}>{q.display}</Text>
       </View>
 
-      {feedback === 'correct' && <Text style={styles.correctText}>✅ Esatto!</Text>}
-      {feedback === 'wrong' && <Text style={styles.wrongText}>❌ Era {q.answer}</Text>}
+      {feedback === 'correct' && <Text style={styles.correctText}>✅ Perfetto! 🎯</Text>}
+      {feedback === 'wrong' && <Text style={styles.wrongText}>💡 Era: {q.answer}</Text>}
 
       <TextInput style={styles.input} value={input} onChangeText={setInput} keyboardType="number-pad"
         placeholder="Il numero è..." placeholderTextColor="#AAA" editable={feedback === null} onSubmitEditing={check} autoFocus />

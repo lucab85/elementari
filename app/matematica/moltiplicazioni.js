@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, TextInput, StyleSheet, Animated, Keyboard
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '../../constants/theme';
+import { hapticCorrect, hapticWrong, hapticTap, getCorrectMessage, getWrongMessage } from '../../components/KidsFeedback';
 
 function generate() {
   const level = Math.random();
@@ -27,6 +28,7 @@ export default function Moltiplicazioni() {
     if (!input.trim()) return;
     const correct = parseInt(input) === q.answer;
     setFeedback(correct ? 'correct' : 'wrong');
+    if (correct) hapticCorrect(); else hapticWrong();
     setTotal(total + 1);
     if (correct) {
       setScore(score + 1);
@@ -41,7 +43,7 @@ export default function Moltiplicazioni() {
   return (
     <KeyboardAvoidingView style={[styles.container, { paddingTop: insets.top + 16 }]} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }}>
           <Text style={styles.backText}>← Indietro</Text>
         </TouchableOpacity>
         <Animated.Text style={[styles.scoreText, { transform: [{ scale: bounceAnim }] }]}>⭐ {score}/{total}</Animated.Text>
@@ -51,7 +53,7 @@ export default function Moltiplicazioni() {
         <Text style={styles.questionText}>{q.a} × {q.b} = ?</Text>
       </View>
       {feedback === 'correct' && <Text style={styles.correctText}>✅ Bravissimo!</Text>}
-      {feedback === 'wrong' && <Text style={styles.wrongText}>❌ Era {q.answer}</Text>}
+      {feedback === 'wrong' && <Text style={styles.wrongText}>💡 Era: {q.answer}</Text>}
       <TextInput style={styles.input} value={input} onChangeText={setInput} keyboardType="number-pad"
         placeholder="Risposta..." placeholderTextColor="#AAA" editable={feedback === null} onSubmitEditing={check} autoFocus />
       <TouchableOpacity style={styles.checkBtn} onPress={check} activeOpacity={0.7} disabled={feedback !== null}>

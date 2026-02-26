@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '../../constants/theme';
 import { problemi } from '../../data/problemi';
+import { hapticCorrect, hapticWrong, hapticTap, getCorrectMessage, getWrongMessage } from '../../components/KidsFeedback';
 
 export default function Problemi() {
   const router = useRouter();
@@ -22,6 +23,7 @@ export default function Problemi() {
     if (feedback !== null) return;
     const correct = i === q.correct;
     setFeedback(correct ? 'correct' : 'wrong');
+    if (correct) hapticCorrect(); else hapticWrong();
     if (correct) {
       setScore(score + 1);
       Animated.sequence([
@@ -45,7 +47,7 @@ export default function Problemi() {
         <TouchableOpacity style={styles.retryBtn} onPress={() => { setIdx(0); setScore(0); setDone(false); setFeedback(null); setShowHint(false); }}>
           <Text style={styles.retryBtnText}>Riprova</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.back()} style={{ marginTop: 16 }}>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }} style={{ marginTop: 16 }}>
           <Text style={styles.backText}>← Indietro</Text>
         </TouchableOpacity>
       </View>
@@ -55,7 +57,7 @@ export default function Problemi() {
   return (
     <ScrollView style={[styles.container, { paddingTop: insets.top }]} contentContainerStyle={styles.content}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }}>
           <Text style={styles.backText}>← Indietro</Text>
         </TouchableOpacity>
         <Animated.Text style={[styles.scoreLabel, { transform: [{ scale: scaleAnim }] }]}>⭐ {score}</Animated.Text>
@@ -74,8 +76,8 @@ export default function Problemi() {
       )}
       {showHint && <Text style={styles.hintText}>Operazione: {q.operation}</Text>}
 
-      {feedback === 'correct' && <Text style={styles.correctText}>✅ Bravo! ({q.operation} = {q.options[q.correct]})</Text>}
-      {feedback === 'wrong' && <Text style={styles.wrongText}>❌ Era {q.options[q.correct]} ({q.operation})</Text>}
+      {feedback === 'correct' && <Text style={styles.correctText}>✅ Grande! 💪 ({q.operation} = {q.options[q.correct]})</Text>}
+      {feedback === 'wrong' && <Text style={styles.wrongText}>💡 Era: {q.options[q.correct]} ({q.operation})</Text>}
 
       <View style={styles.options}>
         {q.options.map((opt, i) => (
