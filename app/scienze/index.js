@@ -43,6 +43,15 @@ export default function Scienze() {
         </View>
         <Text style={styles.arrow}>›</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity style={styles.card} onPress={() => router.push('/scienze/materia')} activeOpacity={0.7}>
+        <Text style={styles.emoji}>🧊</Text>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.cardTitle}>Gli Stati della Materia</Text>
+          <Text style={styles.cardDesc}>Solido, liquido, gassoso</Text>
+        </View>
+        <Text style={styles.arrow}>›</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
