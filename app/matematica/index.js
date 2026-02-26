@@ -18,6 +18,7 @@ const activities = [
   { title: 'Doppio e Metà', emoji: '✖️', desc: 'Il doppio e la metà', route: '/matematica/doppiometa' },
   { title: 'Frazioni', emoji: '🍕', desc: 'Parti e frazioni', route: '/matematica/frazioni' },
   { title: 'Pari o Dispari', emoji: '🔢', desc: 'Pari o dispari?', route: '/matematica/paridispari' },
+  { title: 'Ordina i Numeri', emoji: '📊', desc: 'Metti in ordine', route: '/matematica/ordina' },
   { title: 'Tabellone', emoji: '📋', desc: 'Tutte le tabelline', route: '/matematica/tabellone' },
 ];
 
