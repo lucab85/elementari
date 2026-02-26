@@ -9,6 +9,7 @@ const activities = [
   { title: 'Moltiplicazioni', emoji: '🔢', desc: 'Da facile a difficile', route: '/matematica/moltiplicazioni' },
   { title: 'Divisioni', emoji: '➗', desc: 'Dividi!', route: '/matematica/divisioni' },
   { title: 'Trova il numero', emoji: '🔍', desc: 'Completa le operazioni', route: '/matematica/trovailnumero' },
+  { title: 'Confronta', emoji: '⚖️', desc: 'Maggiore, minore o uguale?', route: '/matematica/confronta' },
   { title: 'Tabellone', emoji: '📋', desc: 'Tutte le tabelline', route: '/matematica/tabellone' },
 ];
 
