@@ -15,6 +15,7 @@ const activities = [
   { title: 'Equivalenze', emoji: '📏', desc: 'km↔m, kg↔g, l↔ml', route: '/matematica/equivalenze' },
   { title: 'Problemi', emoji: '📝', desc: 'Problemi con le parole', route: '/matematica/problemi' },
   { title: 'Geometria', emoji: '📐', desc: 'Forme e figure', route: '/matematica/geometria' },
+  { title: 'Doppio e Metà', emoji: '✖️', desc: 'Il doppio e la metà', route: '/matematica/doppiometa' },
   { title: 'Tabellone', emoji: '📋', desc: 'Tutte le tabelline', route: '/matematica/tabellone' },
 ];
 

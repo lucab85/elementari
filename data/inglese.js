@@ -84,6 +84,51 @@ export const vocabulary = [
       { en: 'Sunday', it: 'Domenica', emoji: '📅' },
     ],
   },
+  {
+    title: '🏠 House / Casa',
+    words: [
+      { en: 'House', it: 'Casa', emoji: '🏠' },
+      { en: 'Door', it: 'Porta', emoji: '🚪' },
+      { en: 'Window', it: 'Finestra', emoji: '🪟' },
+      { en: 'Kitchen', it: 'Cucina', emoji: '🍳' },
+      { en: 'Bedroom', it: 'Camera da letto', emoji: '🛏️' },
+      { en: 'Bathroom', it: 'Bagno', emoji: '🛁' },
+      { en: 'Garden', it: 'Giardino', emoji: '🌻' },
+      { en: 'Table', it: 'Tavolo', emoji: '🪑' },
+      { en: 'Chair', it: 'Sedia', emoji: '💺' },
+      { en: 'Bed', it: 'Letto', emoji: '🛌' },
+    ],
+  },
+  {
+    title: '👕 Clothes / Vestiti',
+    words: [
+      { en: 'Shirt', it: 'Camicia', emoji: '👔' },
+      { en: 'Pants', it: 'Pantaloni', emoji: '👖' },
+      { en: 'Shoes', it: 'Scarpe', emoji: '👟' },
+      { en: 'Hat', it: 'Cappello', emoji: '🧢' },
+      { en: 'Dress', it: 'Vestito', emoji: '👗' },
+      { en: 'Socks', it: 'Calzini', emoji: '🧦' },
+      { en: 'Jacket', it: 'Giacca', emoji: '🧥' },
+      { en: 'Scarf', it: 'Sciarpa', emoji: '🧣' },
+    ],
+  },
+  {
+    title: '📅 Days & Months / Giorni e Mesi',
+    words: [
+      { en: 'Monday', it: 'Lunedì', emoji: '1️⃣' },
+      { en: 'Tuesday', it: 'Martedì', emoji: '2️⃣' },
+      { en: 'Wednesday', it: 'Mercoledì', emoji: '3️⃣' },
+      { en: 'Thursday', it: 'Giovedì', emoji: '4️⃣' },
+      { en: 'Friday', it: 'Venerdì', emoji: '5️⃣' },
+      { en: 'Saturday', it: 'Sabato', emoji: '6️⃣' },
+      { en: 'Sunday', it: 'Domenica', emoji: '7️⃣' },
+      { en: 'January', it: 'Gennaio', emoji: '❄️' },
+      { en: 'March', it: 'Marzo', emoji: '🌸' },
+      { en: 'June', it: 'Giugno', emoji: '☀️' },
+      { en: 'September', it: 'Settembre', emoji: '🍂' },
+      { en: 'December', it: 'Dicembre', emoji: '🎄' },
+    ],
+  },
 ];
 
 // Quiz: English → Italian and Italian → English
