@@ -1,4 +1,5 @@
-// Ortografia: hanno/anno, hai/ai/ahi, ho/o/oh
+// Ortografia: hanno/anno, hai/ai/ahi, ho/o/oh, ha/a/ah
+// + new: ce/c'è, cera/c'era, cu/qu/cqu, gn/ni, sce/scie, gli/li, doppie
 export const ortografiaTopics = [
   {
     title: 'HANNO • ANNO',
@@ -16,6 +17,9 @@ export const ortografiaTopics = [
       { sentence: '___ santo è una festa.', options: ['Hanno', 'Anno'], correct: 1 },
       { sentence: 'Loro ___ perdonato Mattia.', options: ['hanno', 'anno'], correct: 0 },
       { sentence: 'Un ___ solare dura 365 giorni.', options: ['hanno', 'anno'], correct: 1 },
+      { sentence: 'I miei amici ___ una bicicletta nuova.', options: ['hanno', 'anno'], correct: 0 },
+      { sentence: 'L\'___ prossimo andremo al mare.', options: ['hanno', 'anno'], correct: 1 },
+      { sentence: 'Le maestre ___ preparato una sorpresa.', options: ['hanno', 'anno'], correct: 0 },
     ],
   },
   {
@@ -32,6 +36,8 @@ export const ortografiaTopics = [
       { sentence: 'Offrire ___ compagni.', options: ['hai', 'ai', 'ahi'], correct: 1 },
       { sentence: 'Tu ___ fatto una partita.', options: ['hai', 'ai', 'ahi'], correct: 0 },
       { sentence: '___! Mi sono fatto male!', options: ['Hai', 'Ai', 'Ahi'], correct: 2 },
+      { sentence: 'Dare un regalo ___ bambini.', options: ['hai', 'ai', 'ahi'], correct: 1 },
+      { sentence: '___ studiato per la verifica?', options: ['Hai', 'Ai', 'Ahi'], correct: 0 },
     ],
   },
   {
@@ -48,6 +54,8 @@ export const ortografiaTopics = [
       { sentence: 'Vieni oggi ___ domani?', options: ['ho', 'o', 'oh'], correct: 1 },
       { sentence: '___ fatto i compiti.', options: ['Ho', 'O', 'Oh'], correct: 0 },
       { sentence: '___! Che paura!', options: ['Ho', 'O', 'Oh'], correct: 2 },
+      { sentence: '___ sete, posso bere?', options: ['Ho', 'O', 'Oh'], correct: 0 },
+      { sentence: 'Prendi la mela ___ la pera.', options: ['ho', 'o', 'oh'], correct: 1 },
     ],
   },
   {
@@ -64,6 +72,48 @@ export const ortografiaTopics = [
       { sentence: 'Andiamo ___ casa.', options: ['ha', 'a', 'ah'], correct: 1 },
       { sentence: 'Lucia ___ finito i compiti.', options: ['ha', 'a', 'ah'], correct: 0 },
       { sentence: '___! Ecco dove era!', options: ['Ha', 'A', 'Ah'], correct: 2 },
+      { sentence: 'Il papà ___ letto il giornale.', options: ['ha', 'a', 'ah'], correct: 0 },
+      { sentence: 'Vengo ___ trovarti domani.', options: ['ha', 'a', 'ah'], correct: 1 },
+    ],
+  },
+  {
+    title: 'C\'È • CE',
+    rule: 'C\'È = ci è (esiste, si trova)\nCE = pronome/avverbio senza apostrofo',
+    questions: [
+      { sentence: '___ un gatto sul tetto.', options: ['C\'è', 'Ce'], correct: 0 },
+      { sentence: '___ la fai a venire?', options: ['C\'è', 'Ce'], correct: 1 },
+      { sentence: 'Non ___ nessuno in casa.', options: ['c\'è', 'ce'], correct: 0 },
+      { sentence: '___ ne andiamo.', options: ['C\'è', 'Ce'], correct: 1 },
+      { sentence: '___ un problema.', options: ['C\'è', 'Ce'], correct: 0 },
+      { sentence: '___ lo dici sempre tu.', options: ['C\'è', 'Ce'], correct: 1 },
+      { sentence: 'Oggi ___ il sole.', options: ['c\'è', 'ce'], correct: 0 },
+      { sentence: 'Non ___ la faccio più!', options: ['c\'è', 'ce'], correct: 1 },
+    ],
+  },
+  {
+    title: 'C\'ERA • CERA',
+    rule: 'C\'ERA = ci era (esisteva)\nCERA = materiale (cera d\'api)',
+    questions: [
+      { sentence: '___ una volta un re.', options: ['C\'era', 'Cera'], correct: 0 },
+      { sentence: 'La candela è fatta di ___.', options: ['c\'era', 'cera'], correct: 1 },
+      { sentence: 'Non ___ nessuno al parco.', options: ['c\'era', 'cera'], correct: 0 },
+      { sentence: 'La ___ delle api è gialla.', options: ['c\'era', 'cera'], correct: 1 },
+      { sentence: '___ un bel sole stamattina.', options: ['C\'era', 'Cera'], correct: 0 },
+      { sentence: 'Ho comprato una candela di ___.', options: ['c\'era', 'cera'], correct: 1 },
+      { sentence: '___ una volta una principessa.', options: ['C\'era', 'Cera'], correct: 0 },
+      { sentence: 'Il pavimento è lucidato a ___.', options: ['c\'era', 'cera'], correct: 1 },
+    ],
+  },
+  {
+    title: 'QU • CU • CQU',
+    rule: 'QU + vocale (quasi sempre)\nCU + consonante\nCQU = acqua e derivati + soqquadro',
+    questions: [
+      { sentence: 'Ho bevuto l\'___a.', options: ['qu', 'cu', 'cqu'], correct: 2 },
+      { sentence: 'Il ___ore batte forte.', options: ['qu', 'cu', 'cqu'], correct: 1 },
+      { sentence: 'La ___ola è grande.', options: ['sc', 'cu', 'cqu'], correct: 0 },
+      { sentence: 'Mi piace l\'a___ilone.', options: ['qu', 'cu', 'cqu'], correct: 0 },
+      { sentence: 'Ho fatto un a___isto.', options: ['qu', 'cu', 'cqu'], correct: 2 },
+      { sentence: 'La ___cina è calda.', options: ['qu', 'cu', 'cqu'], correct: 1 },
     ],
   },
 ];
@@ -77,8 +127,8 @@ export const descrizionePrompts = [
       'Chi lo fa?',
       'Quale luogo viene scelto per l\'allestimento?',
       'Con quali materiali viene realizzato?',
-      'Come vengono disposti?',
-      'Racconta e descrivi...',
+      'Come vengono disposti gli addobbi?',
+      'Racconta e descrivi i dettagli...',
       'Al termine della descrizione scrivi la conclusione.',
     ],
   },
@@ -104,6 +154,30 @@ export const descrizionePrompts = [
       'Con cosa ti piace giocare?',
       'Come ti senti?',
       'Racconta una giornata da Inverno...',
+    ],
+  },
+  {
+    title: '🏫 La mia scuola',
+    questions: [
+      'Come si chiama la tua scuola?',
+      'Come ci arrivi la mattina?',
+      'Com\'è l\'edificio? Descrivi l\'esterno.',
+      'Com\'è la tua aula?',
+      'Qual è la tua materia preferita e perché?',
+      'Cosa fai durante la ricreazione?',
+      'Racconta una giornata tipo a scuola.',
+    ],
+  },
+  {
+    title: '🐾 Il mio animale preferito',
+    questions: [
+      'Quale animale hai scelto?',
+      'Come si chiama? (se ne hai uno)',
+      'Com\'è fatto? Descrivilo.',
+      'Cosa mangia?',
+      'Dove vive?',
+      'Perché ti piace così tanto?',
+      'Racconta un episodio divertente.',
     ],
   },
 ];

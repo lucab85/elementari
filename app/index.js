@@ -1,18 +1,34 @@
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import { useState, useEffect, useCallback } from 'react';
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Animated } from 'react-native';
 import { useRouter } from 'expo-router';
+import { useFocusEffect } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS, SHADOWS } from '../constants/theme';
+import { getTotalStars } from '../data/progress';
 
 const subjects = [
-  { title: 'Matematica', emoji: '🔢', color: COLORS.math, lightColor: COLORS.mathLight, route: '/matematica' },
-  { title: 'Italiano', emoji: '📖', color: COLORS.italiano, lightColor: COLORS.italianoLight, route: '/italiano' },
-  { title: 'Storia e Scienze', emoji: '🦕', color: COLORS.storia, lightColor: COLORS.storiaLight, route: '/storia' },
-  { title: 'I Miei Compiti', emoji: '📝', color: COLORS.compiti, lightColor: COLORS.compitiLight, route: '/compiti' },
+  { title: 'Matematica', emoji: '🔢', color: COLORS.math, lightColor: COLORS.mathLight, route: '/matematica', desc: 'Tabelline, operazioni, moltiplicazioni' },
+  { title: 'Italiano', emoji: '📖', color: COLORS.italiano, lightColor: COLORS.italianoLight, route: '/italiano', desc: 'Ortografia e descrizioni' },
+  { title: 'Storia e Scienze', emoji: '🦕', color: COLORS.storia, lightColor: COLORS.storiaLight, route: '/storia', desc: 'Animali preistorici e quiz' },
+  { title: 'I Miei Compiti', emoji: '📝', color: COLORS.compiti, lightColor: COLORS.compitiLight, route: '/compiti', desc: 'La tua lista compiti' },
 ];
 
 export default function Home() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const [stars, setStars] = useState(0);
+
+  useFocusEffect(
+    useCallback(() => {
+      getTotalStars().then(setStars);
+    }, [])
+  );
+
+  // Pick a greeting based on time
+  const hour = new Date().getHours();
+  let greeting = 'Buongiorno! ☀️';
+  if (hour >= 13 && hour < 18) greeting = 'Buon pomeriggio! 🌤️';
+  else if (hour >= 18) greeting = 'Buonasera! 🌙';
 
   return (
     <ScrollView
@@ -20,8 +36,17 @@ export default function Home() {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      <Text style={styles.greeting}>Ciao! 👋</Text>
-      <Text style={styles.subtitle}>Cosa studiamo oggi?</Text>
+      <View style={styles.topBar}>
+        <View>
+          <Text style={styles.greeting}>{greeting}</Text>
+          <Text style={styles.subtitle}>Cosa studiamo oggi?</Text>
+        </View>
+        {stars > 0 && (
+          <View style={styles.starBadge}>
+            <Text style={styles.starText}>⭐ {stars}</Text>
+          </View>
+        )}
+      </View>
 
       {subjects.map((subject) => (
         <TouchableOpacity
@@ -31,10 +56,17 @@ export default function Home() {
           onPress={() => router.push(subject.route)}
         >
           <Text style={styles.emoji}>{subject.emoji}</Text>
-          <Text style={[styles.cardTitle, { color: subject.color }]}>{subject.title}</Text>
-          <Text style={styles.arrow}>→</Text>
+          <View style={styles.cardContent}>
+            <Text style={[styles.cardTitle, { color: subject.color }]}>{subject.title}</Text>
+            <Text style={styles.cardDesc}>{subject.desc}</Text>
+          </View>
+          <Text style={styles.arrow}>›</Text>
         </TouchableOpacity>
       ))}
+
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>Made with ❤️ per i piccoli studenti</Text>
+      </View>
     </ScrollView>
   );
 }
@@ -42,18 +74,25 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.bg },
   content: { padding: 24, paddingBottom: 40 },
-  greeting: { fontSize: 36, fontWeight: '800', color: COLORS.text, marginTop: 20 },
-  subtitle: { fontSize: 18, color: COLORS.textLight, marginBottom: 30, marginTop: 4 },
+  topBar: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: 20, marginBottom: 30 },
+  greeting: { fontSize: 32, fontWeight: '800', color: COLORS.text },
+  subtitle: { fontSize: 18, color: COLORS.textLight, marginTop: 4 },
+  starBadge: { backgroundColor: '#FFF8DC', paddingHorizontal: 16, paddingVertical: 10, borderRadius: 20, ...SHADOWS.card },
+  starText: { fontSize: 20, fontWeight: '700', color: '#D4A017' },
   card: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 24,
+    padding: 22,
     borderRadius: 20,
-    marginBottom: 16,
+    marginBottom: 14,
     borderLeftWidth: 6,
     ...SHADOWS.card,
   },
-  emoji: { fontSize: 40, marginRight: 16 },
-  cardTitle: { fontSize: 22, fontWeight: '700', flex: 1 },
-  arrow: { fontSize: 28, color: COLORS.textLight },
+  emoji: { fontSize: 38, marginRight: 16 },
+  cardContent: { flex: 1 },
+  cardTitle: { fontSize: 22, fontWeight: '700' },
+  cardDesc: { fontSize: 13, color: COLORS.textLight, marginTop: 3 },
+  arrow: { fontSize: 32, color: COLORS.textLight, fontWeight: '300' },
+  footer: { alignItems: 'center', marginTop: 20 },
+  footerText: { fontSize: 14, color: COLORS.textLight },
 });

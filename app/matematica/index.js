@@ -4,9 +4,10 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS, SHADOWS } from '../../constants/theme';
 
 const activities = [
-  { title: 'Tabelline', emoji: '✖️', desc: 'Ripassa le tabelline!', route: '/matematica/tabelline' },
+  { title: 'Tabelline', emoji: '✖️', desc: 'Ripassa le tabelline del 2-9!', route: '/matematica/tabelline' },
   { title: 'Addizioni e Sottrazioni', emoji: '➕', desc: 'Calcola a mente', route: '/matematica/operazioni' },
-  { title: 'Moltiplicazioni', emoji: '🔢', desc: 'Moltiplica!', route: '/matematica/moltiplicazioni' },
+  { title: 'Moltiplicazioni', emoji: '🔢', desc: 'Da facile a difficile', route: '/matematica/moltiplicazioni' },
+  { title: 'Trova il numero', emoji: '🔍', desc: 'Completa le operazioni', route: '/matematica/trovailnumero' },
 ];
 
 export default function Matematica() {
@@ -32,7 +33,7 @@ export default function Matematica() {
             <Text style={styles.cardTitle}>{a.title}</Text>
             <Text style={styles.cardDesc}>{a.desc}</Text>
           </View>
-          <Text style={styles.arrow}>→</Text>
+          <Text style={styles.arrow}>›</Text>
         </TouchableOpacity>
       ))}
     </ScrollView>
@@ -42,7 +43,7 @@ export default function Matematica() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.bg },
   content: { padding: 24, paddingBottom: 40 },
-  back: { marginBottom: 8 },
+  back: { marginBottom: 8, marginTop: 16 },
   backText: { fontSize: 16, color: COLORS.math, fontWeight: '600' },
   title: { fontSize: 32, fontWeight: '800', color: COLORS.math, marginBottom: 24 },
   card: {
@@ -57,6 +58,6 @@ const styles = StyleSheet.create({
   emoji: { fontSize: 36, marginRight: 14 },
   cardContent: { flex: 1 },
   cardTitle: { fontSize: 20, fontWeight: '700', color: COLORS.math },
-  cardDesc: { fontSize: 14, color: COLORS.textLight, marginTop: 2 },
-  arrow: { fontSize: 24, color: COLORS.textLight },
+  cardDesc: { fontSize: 13, color: COLORS.textLight, marginTop: 2 },
+  arrow: { fontSize: 28, color: COLORS.textLight, fontWeight: '300' },
 });
