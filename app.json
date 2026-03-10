@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "compiti-app",
-    "slug": "compiti-app",
+    "slug": "compiti",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -28,6 +28,15 @@
     "scheme": "compiti-app",
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "27309b09-8905-48af-b32a-24ecf0fe4e66"
+      }
+    },
+    "owner": "lucaberton"
   }
 }
