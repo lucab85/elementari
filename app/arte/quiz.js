@@ -4,6 +4,8 @@ import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS, SHADOWS } from '../../constants/theme';
 import { arteQuiz } from '../../data/arte';
+import { useTrackScreen, useTrackActivity } from '../../hooks/useAnalytics';
+import { hapticCorrect, hapticWrong, hapticTap, getCorrectMessage, getWrongMessage } from '../../components/KidsFeedback';
 
 const ARTE_COLOR = '#FF6F00';
 
@@ -16,6 +18,10 @@ export default function QuizArte() {
   const [selected, setSelected] = useState(null);
   const [done, setDone] = useState(false);
   const scaleAnim = useRef(new Animated.Value(1)).current;
+  useTrackScreen('Arte > Quiz');
+  const { onStart, onAnswer, onComplete } = useTrackActivity('quiz_arte', 'arte');
+
+  useState(() => { onStart(); }, []);
 
   const q = questions[qi];
 
@@ -23,13 +29,14 @@ export default function QuizArte() {
     if (selected !== null) return;
     setSelected(i);
     if (i === q.correct) setScore(s => s + 1);
+    onAnswer(i === q.correct, qi);
     Animated.sequence([
       Animated.timing(scaleAnim, { toValue: 1.1, duration: 150, useNativeDriver: true }),
       Animated.timing(scaleAnim, { toValue: 1, duration: 150, useNativeDriver: true }),
     ]).start();
     setTimeout(() => {
       if (qi + 1 < questions.length) { setQi(qi + 1); setSelected(null); }
-      else setDone(true);
+      else { setDone(true); onComplete(score + (i === q.correct ? 1 : 0), questions.length); }
     }, 1200);
   };
 
@@ -42,7 +49,7 @@ export default function QuizArte() {
           <Text style={styles.doneStars}>{stars}</Text>
           <Text style={styles.doneTitle}>Quiz Completato!</Text>
           <Text style={styles.doneScore}>{score} / {questions.length} ({pct}%)</Text>
-          <TouchableOpacity style={styles.doneBtn} onPress={() => router.back()}>
+          <TouchableOpacity style={styles.doneBtn} onPress={() => { hapticTap(); router.back(); }}>
             <Text style={styles.doneBtnText}>← Torna all'Arte</Text>
           </TouchableOpacity>
         </View>
@@ -53,7 +60,7 @@ export default function QuizArte() {
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
       <View style={styles.content}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.back}>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }} style={styles.back}>
           <Text style={styles.backText}>← Indietro</Text>
         </TouchableOpacity>
         <View style={styles.progressRow}>

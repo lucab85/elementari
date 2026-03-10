@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '../../constants/theme';
+import { hapticCorrect, hapticWrong, hapticTap, getCorrectMessage, getWrongMessage } from '../../components/KidsFeedback';
 
 const pairs = [
   { num: 2, double: 4 }, { num: 5, double: 10 }, { num: 7, double: 14 },
@@ -43,6 +44,7 @@ export default function DoppioMeta() {
     if (feedback !== null) return;
     const correct = i === q.correct;
     setFeedback(correct ? 'correct' : 'wrong');
+    if (correct) hapticCorrect(); else hapticWrong();
     setTotal(total + 1);
     if (correct) {
       setScore(score + 1);
@@ -54,15 +56,15 @@ export default function DoppioMeta() {
   return (
     <View style={[styles.container, { paddingTop: insets.top + 16 }]}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
         <Animated.Text style={[styles.scoreText, { transform: [{ scale: bounceAnim }] }]}>⭐ {score}/{total}</Animated.Text>
       </View>
       <Text style={styles.title}>✖️➗ Doppio e Metà</Text>
       <View style={styles.questionBox}>
         <Text style={styles.questionText}>{q.question}</Text>
       </View>
-      {feedback === 'correct' && <Text style={styles.correctText}>✅ Giusto!</Text>}
-      {feedback === 'wrong' && <Text style={styles.wrongText}>❌ Era {q.answer}</Text>}
+      {feedback === 'correct' && <Text style={styles.correctText}>✅ Bravissimo! 🌟</Text>}
+      {feedback === 'wrong' && <Text style={styles.wrongText}>💡 Era: {q.answer}</Text>}
       <View style={styles.options}>
         {q.options.map((opt, i) => (
           <TouchableOpacity key={i} style={[styles.optionBtn, feedback && i === q.correct && styles.optionCorrect, feedback === 'wrong' && i !== q.correct && styles.optionFaded]}

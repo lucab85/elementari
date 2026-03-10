@@ -3,6 +3,10 @@ import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '../../constants/theme';
+import {
+  getCorrectMessage, getWrongMessage, hapticCorrect, hapticWrong, hapticTap,
+  CelebrationOverlay, FeedbackCard, StreakBadge,
+} from '../../components/KidsFeedback';
 
 function generateQuestion(table) {
   const a = table || (Math.floor(Math.random() * 8) + 2);
@@ -25,52 +29,74 @@ export default function Tabelline() {
   const insets = useSafeAreaInsets();
   const [selectedTable, setSelectedTable] = useState(null);
   const [question, setQuestion] = useState(null);
+  const [options, setOptions] = useState([]);
   const [streak, setStreak] = useState(0);
   const [bestStreak, setBestStreak] = useState(0);
+  const [score, setScore] = useState(0);
+  const [total, setTotal] = useState(0);
   const [feedback, setFeedback] = useState(null);
+  const [feedbackMsg, setFeedbackMsg] = useState('');
+  const [showCelebration, setShowCelebration] = useState(false);
   const scaleAnim = useRef(new Animated.Value(1)).current;
 
   const startTable = (t) => {
+    hapticTap();
     setSelectedTable(t);
-    setQuestion(generateQuestion(t));
+    const q = generateQuestion(t);
+    setQuestion(q);
+    setOptions(generateOptions(q.answer));
     setStreak(0);
+    setScore(0);
+    setTotal(0);
     setFeedback(null);
   };
 
   const nextQuestion = () => {
-    setQuestion(generateQuestion(selectedTable));
+    const q = generateQuestion(selectedTable);
+    setQuestion(q);
+    setOptions(generateOptions(q.answer));
     setFeedback(null);
   };
 
   const handleAnswer = (ans) => {
     if (feedback !== null) return;
     const isCorrect = ans === question.answer;
-    setFeedback(isCorrect ? 'correct' : 'wrong');
+    setTotal(t => t + 1);
 
     if (isCorrect) {
       const newStreak = streak + 1;
+      setScore(s => s + 1);
       setStreak(newStreak);
       if (newStreak > bestStreak) setBestStreak(newStreak);
+      setFeedback('correct');
+      setFeedbackMsg(getCorrectMessage());
+      hapticCorrect();
+
+      if (newStreak % 5 === 0) setShowCelebration(true);
+
       Animated.sequence([
-        Animated.spring(scaleAnim, { toValue: 1.3, useNativeDriver: true }),
-        Animated.spring(scaleAnim, { toValue: 1, useNativeDriver: true }),
+        Animated.spring(scaleAnim, { toValue: 1.3, friction: 3, useNativeDriver: true }),
+        Animated.spring(scaleAnim, { toValue: 1, friction: 5, useNativeDriver: true }),
       ]).start();
     } else {
       setStreak(0);
+      setFeedback('wrong');
+      setFeedbackMsg(getWrongMessage());
+      hapticWrong();
     }
 
-    setTimeout(nextQuestion, isCorrect ? 1000 : 2000);
+    setTimeout(nextQuestion, isCorrect ? 1200 : 2500);
   };
 
   // Table selection screen
   if (!selectedTable) {
     return (
       <View style={[styles.container, { paddingTop: insets.top + 16 }]}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.back}>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }} style={styles.back}>
           <Text style={styles.backText}>← Indietro</Text>
         </TouchableOpacity>
         <Text style={styles.title}>✖️ Tabelline</Text>
-        <Text style={styles.subtitle}>Scegli una tabellina</Text>
+        <Text style={styles.subtitle}>Scegli una tabellina! 🎯</Text>
         <View style={styles.tableGrid}>
           {[2, 3, 4, 5, 6, 7, 8, 9].map((t) => (
             <TouchableOpacity key={t} style={styles.tableBtn} onPress={() => startTable(t)} activeOpacity={0.7}>
@@ -78,57 +104,61 @@ export default function Tabelline() {
             </TouchableOpacity>
           ))}
           <TouchableOpacity style={[styles.tableBtn, styles.tableBtnAll]} onPress={() => startTable(0)} activeOpacity={0.7}>
-            <Text style={[styles.tableBtnText, { color: '#FFF' }]}>Tutte!</Text>
+            <Text style={[styles.tableBtnText, { color: '#FFF' }]}>Tutte! 🌟</Text>
           </TouchableOpacity>
         </View>
       </View>
     );
   }
 
-  const options = generateOptions(question.answer);
-
   return (
     <View style={[styles.container, { paddingTop: insets.top + 16 }]}>
+      <CelebrationOverlay visible={showCelebration} onDone={() => setShowCelebration(false)} />
+
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => setSelectedTable(null)}>
+        <TouchableOpacity onPress={() => { hapticTap(); setSelectedTable(null); }}>
           <Text style={styles.backText}>← Tabelline</Text>
         </TouchableOpacity>
-        <View style={styles.streakBox}>
-          <Animated.Text style={[styles.streakText, { transform: [{ scale: scaleAnim }] }]}>
-            🔥 {streak}
+        <View style={styles.scoreBox}>
+          <Animated.Text style={[styles.scoreText, { transform: [{ scale: scaleAnim }] }]}>
+            ⭐ {score}
           </Animated.Text>
         </View>
       </View>
 
-      <View style={styles.questionBox}>
+      <StreakBadge streak={streak} />
+
+      <Animated.View style={[styles.questionBox, { transform: [{ scale: scaleAnim }] }]}>
         <Text style={styles.questionText}>
           {question.a} × {question.b} = ?
         </Text>
-      </View>
+      </Animated.View>
 
-      {feedback === 'correct' && <Text style={styles.correctText}>✅ Bravo! ⭐</Text>}
-      {feedback === 'wrong' && (
-        <Text style={styles.wrongText}>❌ Era {question.answer}</Text>
+      {feedback && (
+        <FeedbackCard type={feedback} message={feedbackMsg} answer={feedback === 'wrong' ? question.answer : undefined} />
       )}
 
       <View style={styles.optionsGrid}>
-        {options.map((opt) => (
-          <TouchableOpacity
-            key={opt}
-            style={[
-              styles.optionBtn,
-              feedback && opt === question.answer && styles.optionCorrect,
-              feedback === 'wrong' && opt !== question.answer && styles.optionFaded,
-            ]}
-            onPress={() => handleAnswer(opt)}
-            activeOpacity={0.7}
-          >
-            <Text style={styles.optionText}>{opt}</Text>
-          </TouchableOpacity>
-        ))}
+        {options.map((opt) => {
+          let btnStyle = styles.optionBtn;
+          if (feedback && opt === question.answer) btnStyle = [styles.optionBtn, styles.optionCorrect];
+          else if (feedback === 'wrong' && opt !== question.answer) btnStyle = [styles.optionBtn, styles.optionFaded];
+
+          return (
+            <TouchableOpacity
+              key={opt}
+              style={btnStyle}
+              onPress={() => handleAnswer(opt)}
+              activeOpacity={0.7}
+              disabled={feedback !== null}
+            >
+              <Text style={styles.optionText}>{opt}</Text>
+            </TouchableOpacity>
+          );
+        })}
       </View>
 
-      {bestStreak > 0 && <Text style={styles.bestStreak}>Miglior serie: ⭐ {bestStreak}</Text>}
+      {bestStreak > 2 && <Text style={styles.bestStreak}>🏆 Record: {bestStreak} di fila!</Text>}
     </View>
   );
 }
@@ -136,35 +166,35 @@ export default function Tabelline() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.bg, padding: 24 },
   back: { marginBottom: 8 },
-  backText: { fontSize: 16, color: COLORS.math, fontWeight: '600' },
-  title: { fontSize: 32, fontWeight: '800', color: COLORS.math, marginBottom: 8 },
-  subtitle: { fontSize: 18, color: COLORS.textLight, marginBottom: 24 },
-  tableGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, justifyContent: 'center' },
+  backText: { fontSize: 18, color: COLORS.math, fontWeight: '700' },
+  title: { fontSize: 34, fontWeight: '900', color: COLORS.math, marginBottom: 8 },
+  subtitle: { fontSize: 19, color: COLORS.textLight, marginBottom: 24 },
+  tableGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 14, justifyContent: 'center' },
   tableBtn: {
-    width: 80, height: 80, borderRadius: 20, backgroundColor: COLORS.mathLight,
+    width: 88, height: 88, borderRadius: 24, backgroundColor: COLORS.mathLight,
     justifyContent: 'center', alignItems: 'center',
+    shadowColor: '#000', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.1, shadowRadius: 8, elevation: 4,
   },
-  tableBtnAll: { width: 170, backgroundColor: COLORS.math },
-  tableBtnText: { fontSize: 28, fontWeight: '800', color: COLORS.math },
-  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 30 },
-  streakBox: { backgroundColor: COLORS.mathLight, paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20 },
-  streakText: { fontSize: 24, fontWeight: '700' },
+  tableBtnAll: { width: 184, backgroundColor: COLORS.math },
+  tableBtnText: { fontSize: 30, fontWeight: '900', color: COLORS.math },
+  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 },
+  scoreBox: { backgroundColor: COLORS.mathLight, paddingHorizontal: 18, paddingVertical: 10, borderRadius: 24 },
+  scoreText: { fontSize: 26, fontWeight: '800' },
   questionBox: {
-    backgroundColor: COLORS.white, borderRadius: 24, padding: 40, alignItems: 'center',
-    marginBottom: 24, shadowColor: '#000', shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1, shadowRadius: 12, elevation: 5,
+    backgroundColor: COLORS.white, borderRadius: 28, padding: 40, alignItems: 'center',
+    marginBottom: 16, shadowColor: '#000', shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.12, shadowRadius: 16, elevation: 8,
   },
-  questionText: { fontSize: 48, fontWeight: '800', color: COLORS.text },
-  correctText: { fontSize: 24, textAlign: 'center', marginBottom: 16, color: COLORS.correct },
-  wrongText: { fontSize: 24, textAlign: 'center', marginBottom: 16, color: COLORS.wrong },
-  optionsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, justifyContent: 'center' },
+  questionText: { fontSize: 52, fontWeight: '900', color: COLORS.text },
+  optionsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 14, justifyContent: 'center', marginTop: 8 },
   optionBtn: {
-    width: '46%', paddingVertical: 20, borderRadius: 16, backgroundColor: COLORS.white,
-    alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08, shadowRadius: 8, elevation: 3,
+    width: '46%', paddingVertical: 24, borderRadius: 20, backgroundColor: COLORS.white,
+    alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.1, shadowRadius: 10, elevation: 5,
+    minHeight: 72,
   },
-  optionCorrect: { backgroundColor: '#D5F5E3' },
-  optionFaded: { opacity: 0.4 },
-  optionText: { fontSize: 32, fontWeight: '700', color: COLORS.text },
-  bestStreak: { textAlign: 'center', marginTop: 24, fontSize: 16, color: COLORS.textLight },
+  optionCorrect: { backgroundColor: '#D5F5E3', borderWidth: 3, borderColor: '#2ECC71' },
+  optionFaded: { opacity: 0.3 },
+  optionText: { fontSize: 36, fontWeight: '800', color: COLORS.text },
+  bestStreak: { textAlign: 'center', marginTop: 20, fontSize: 17, color: '#D4A017', fontWeight: '700' },
 });

@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '../../constants/theme';
 import { vocabulary, generateEnglishQuiz } from '../../data/inglese';
+import { hapticCorrect, hapticWrong, hapticTap, getCorrectMessage, getWrongMessage } from '../../components/KidsFeedback';
 
 const ENG_COLOR = '#E67E22';
 const ENG_LIGHT = '#FDEBD0';
@@ -25,6 +26,7 @@ export default function EngQuiz() {
     if (feedback !== null) return;
     const correct = i === q.correct;
     setFeedback(correct ? 'correct' : 'wrong');
+    if (correct) hapticCorrect(); else hapticWrong();
     if (correct) {
       setScore(score + 1);
       Animated.sequence([
@@ -48,7 +50,7 @@ export default function EngQuiz() {
         <TouchableOpacity style={styles.retryBtn} onPress={() => { setIdx(0); setScore(0); setDone(false); setFeedback(null); }}>
           <Text style={styles.retryBtnText}>Try again!</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.back()} style={{ marginTop: 16 }}>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }} style={{ marginTop: 16 }}>
           <Text style={styles.backText}>← Indietro</Text>
         </TouchableOpacity>
       </View>
@@ -58,7 +60,7 @@ export default function EngQuiz() {
   return (
     <ScrollView style={[styles.container, { paddingTop: insets.top }]} contentContainerStyle={styles.content}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }}>
           <Text style={styles.backText}>← Indietro</Text>
         </TouchableOpacity>
         <Animated.Text style={[styles.scoreLabel, { transform: [{ scale: scaleAnim }] }]}>⭐ {score}</Animated.Text>
@@ -106,11 +108,11 @@ const styles = StyleSheet.create({
   questionBox: { backgroundColor: COLORS.white, borderRadius: 20, padding: 24, marginBottom: 20, alignItems: 'center',
     shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1, shadowRadius: 12, elevation: 5 },
   questionEmoji: { fontSize: 48, marginBottom: 12 },
-  questionText: { fontSize: 20, fontWeight: '600', color: COLORS.text, lineHeight: 28, textAlign: 'center' },
+  questionText: { fontSize: 24, fontWeight: '600', color: COLORS.text, lineHeight: 28, textAlign: 'center' },
   correctText: { fontSize: 20, textAlign: 'center', marginBottom: 12, color: COLORS.correct },
   wrongText: { fontSize: 20, textAlign: 'center', marginBottom: 12, color: COLORS.wrong },
   options: { gap: 10 },
-  optionBtn: { backgroundColor: COLORS.white, borderRadius: 16, padding: 18, alignItems: 'center', borderWidth: 2, borderColor: ENG_LIGHT },
+  optionBtn: { backgroundColor: COLORS.white, borderRadius: 16, padding: 20, alignItems: 'center', borderWidth: 2, borderColor: ENG_LIGHT },
   optionCorrect: { backgroundColor: '#D5F5E3', borderColor: COLORS.correct },
   optionFaded: { opacity: 0.4 },
   optionText: { fontSize: 20, fontWeight: '700', color: ENG_COLOR },

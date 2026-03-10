@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Animated } from '
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '../../constants/theme';
+import { hapticCorrect, hapticWrong, hapticTap, getCorrectMessage, getWrongMessage } from '../../components/KidsFeedback';
 
 const sinonimi = [
   { word: 'Bello', type: 'sinonimo', options: ['Carino', 'Brutto', 'Grande', 'Piccolo'], correct: 0 },
@@ -43,6 +44,7 @@ export default function SinonimiContrari() {
     if (feedback !== null) return;
     const correct = i === q.correct;
     setFeedback(correct ? 'correct' : 'wrong');
+    if (correct) hapticCorrect(); else hapticWrong();
     if (correct) {
       setScore(score + 1);
       Animated.sequence([Animated.spring(bounceAnim, { toValue: 1.2, useNativeDriver: true }), Animated.spring(bounceAnim, { toValue: 1, useNativeDriver: true })]).start();
@@ -57,7 +59,7 @@ export default function SinonimiContrari() {
         <Text style={{ fontSize: 72 }}>{pct >= 80 ? '🏆' : '💪'}</Text>
         <Text style={styles.doneText}>{score}/{questions.length} ({pct}%)</Text>
         <TouchableOpacity style={styles.retryBtn} onPress={() => { setIdx(0); setScore(0); setDone(false); setFeedback(null); }}><Text style={styles.retryBtnText}>Riprova</Text></TouchableOpacity>
-        <TouchableOpacity onPress={() => router.back()} style={{ marginTop: 16 }}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }} style={{ marginTop: 16 }}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
       </View>
     );
   }
@@ -65,7 +67,7 @@ export default function SinonimiContrari() {
   return (
     <ScrollView style={[styles.container, { paddingTop: insets.top }]} contentContainerStyle={styles.content}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }}><Text style={styles.backText}>← Indietro</Text></TouchableOpacity>
         <Animated.Text style={[styles.scoreText, { transform: [{ scale: bounceAnim }] }]}>⭐ {score}</Animated.Text>
       </View>
       <Text style={styles.title}>🔄 Sinonimi e Contrari</Text>
@@ -79,8 +81,8 @@ export default function SinonimiContrari() {
         <Text style={styles.questionLabel}>Trova il {q.type} di "{q.word}"</Text>
       </View>
 
-      {feedback === 'correct' && <Text style={styles.correctText}>✅ Esatto!</Text>}
-      {feedback === 'wrong' && <Text style={styles.wrongText}>❌ Era: {q.options[q.correct]}</Text>}
+      {feedback === 'correct' && <Text style={styles.correctText}>✅ Perfetto! 🎯</Text>}
+      {feedback === 'wrong' && <Text style={styles.wrongText}>💡 Era: {q.options[q.correct]}</Text>}
 
       <View style={styles.options}>
         {q.options.map((opt, i) => (
@@ -105,7 +107,7 @@ const styles = StyleSheet.create({
   progress: { fontSize: 14, color: COLORS.textLight, marginBottom: 20 },
   questionBox: { backgroundColor: COLORS.white, borderRadius: 24, padding: 28, alignItems: 'center', marginBottom: 20,
     shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1, shadowRadius: 12, elevation: 5 },
-  typeBadge: { backgroundColor: '#D5F5E3', paddingHorizontal: 16, paddingVertical: 6, borderRadius: 12, marginBottom: 12 },
+  typeBadge: { backgroundColor: '#D5F5E3', paddingHorizontal: 16, paddingVertical: 6, borderRadius: 16, marginBottom: 12 },
   typeContrario: { backgroundColor: '#FADBD8' },
   typeText: { fontSize: 14, fontWeight: '700', color: COLORS.text },
   wordText: { fontSize: 36, fontWeight: '800', color: IT_COLOR, marginBottom: 8 },
@@ -113,7 +115,7 @@ const styles = StyleSheet.create({
   correctText: { fontSize: 20, textAlign: 'center', marginBottom: 12, color: COLORS.correct },
   wrongText: { fontSize: 20, textAlign: 'center', marginBottom: 12, color: COLORS.wrong },
   options: { gap: 10 },
-  optionBtn: { backgroundColor: COLORS.white, borderRadius: 16, padding: 18, alignItems: 'center', borderWidth: 2, borderColor: COLORS.italianoLight },
+  optionBtn: { backgroundColor: COLORS.white, borderRadius: 16, padding: 20, alignItems: 'center', borderWidth: 2, borderColor: COLORS.italianoLight },
   optionCorrect: { backgroundColor: '#D5F5E3', borderColor: COLORS.correct },
   optionFaded: { opacity: 0.4 },
   optionText: { fontSize: 20, fontWeight: '700', color: IT_COLOR },

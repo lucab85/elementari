@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '../../constants/theme';
+import { hapticCorrect, hapticWrong, hapticTap, getCorrectMessage, getWrongMessage } from '../../components/KidsFeedback';
 
 function generate() {
   const hours = Math.floor(Math.random() * 12) + 1;
@@ -62,6 +63,7 @@ export default function Orologio() {
     if (feedback !== null) return;
     const correct = i === q.correct;
     setFeedback(correct ? 'correct' : 'wrong');
+    if (correct) hapticCorrect(); else hapticWrong();
     setTotal(total + 1);
     if (correct) {
       setScore(score + 1);
@@ -80,7 +82,7 @@ export default function Orologio() {
   return (
     <View style={[styles.container, { paddingTop: insets.top + 16 }]}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }}>
           <Text style={styles.backText}>← Indietro</Text>
         </TouchableOpacity>
         <Animated.Text style={[styles.scoreText, { transform: [{ scale: bounceAnim }] }]}>⭐ {score}/{total}</Animated.Text>
@@ -93,8 +95,8 @@ export default function Orologio() {
         <Text style={styles.timeHint}>{q.timeStr}</Text>
       </View>
 
-      {feedback === 'correct' && <Text style={styles.correctText}>✅ Esatto!</Text>}
-      {feedback === 'wrong' && <Text style={styles.wrongText}>❌ Era {q.options[q.correct]}</Text>}
+      {feedback === 'correct' && <Text style={styles.correctText}>✅ Perfetto! 🎯</Text>}
+      {feedback === 'wrong' && <Text style={styles.wrongText}>💡 Era: {q.options[q.correct]}</Text>}
 
       <View style={styles.options}>
         {q.options.map((opt, i) => (

@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '../../constants/theme';
+import { hapticCorrect, hapticWrong, hapticTap, getCorrectMessage, getWrongMessage } from '../../components/KidsFeedback';
 
 // Equivalenze: km↔m, m↔cm, kg↔g, l↔ml, h↔min
 const conversions = [
@@ -62,6 +63,7 @@ export default function Equivalenze() {
     if (feedback !== null) return;
     const correct = i === q.correct;
     setFeedback(correct ? 'correct' : 'wrong');
+    if (correct) hapticCorrect(); else hapticWrong();
     setTotal(total + 1);
     if (correct) {
       setScore(score + 1);
@@ -76,7 +78,7 @@ export default function Equivalenze() {
   return (
     <View style={[styles.container, { paddingTop: insets.top + 16 }]}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}>
+        <TouchableOpacity onPress={() => { hapticTap(); router.back(); }}>
           <Text style={styles.backText}>← Indietro</Text>
         </TouchableOpacity>
         <Animated.Text style={[styles.scoreText, { transform: [{ scale: bounceAnim }] }]}>⭐ {score}/{total}</Animated.Text>
@@ -93,8 +95,8 @@ export default function Equivalenze() {
         <Text style={styles.questionText}>{q.question}</Text>
       </View>
 
-      {feedback === 'correct' && <Text style={styles.correctText}>✅ Bravo!</Text>}
-      {feedback === 'wrong' && <Text style={styles.wrongText}>❌ Era {q.answer}</Text>}
+      {feedback === 'correct' && <Text style={styles.correctText}>✅ Grande! 💪</Text>}
+      {feedback === 'wrong' && <Text style={styles.wrongText}>💡 Era: {q.answer}</Text>}
 
       <View style={styles.options}>
         {q.options.map((opt, i) => (
@@ -115,7 +117,7 @@ const styles = StyleSheet.create({
   backText: { fontSize: 16, color: COLORS.math, fontWeight: '600' },
   scoreText: { fontSize: 20, fontWeight: '700', color: COLORS.math },
   title: { fontSize: 28, fontWeight: '800', color: COLORS.math, marginBottom: 12 },
-  refBox: { backgroundColor: COLORS.mathLight, borderRadius: 12, padding: 12, marginBottom: 20 },
+  refBox: { backgroundColor: COLORS.mathLight, borderRadius: 16, padding: 12, marginBottom: 20 },
   refText: { fontSize: 13, color: COLORS.math, fontWeight: '600', textAlign: 'center', lineHeight: 20 },
   questionBox: { backgroundColor: COLORS.white, borderRadius: 24, padding: 28, alignItems: 'center', marginBottom: 20,
     shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1, shadowRadius: 12, elevation: 5 },
